@@ -47,7 +47,7 @@
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"doraemoo.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"doraemoo.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":17691437,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
@@ -101,18 +101,6 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
-                <i class="iconfont icon-category-fill"></i>
-                分类
-              </a>
-            </li>
-          
-        
-          
-          
-          
-          
-            <li class="nav-item">
               <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
                 标签
@@ -128,6 +116,18 @@
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
                 关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
               </a>
             </li>
           
@@ -185,13 +185,43 @@
                 
 
 <div class="list-group">
-  <p class="h4">共计 2 篇文章</p>
+  <p class="h4">共计 7 篇文章</p>
   <hr>
   
   
     
       
       <p class="h5">2022</p>
+    
+    <a href="/2022/03/03/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-FinalSQL/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">极客大挑战 2019 FinalSQL</span>
+      <time style="float: right;">03-03</time>
+    </a>
+  
+    
+    <a href="/2022/03/03/SWPU2019-Web1-%E6%97%A0%E5%88%97%E5%90%8D%E6%B3%A8%E5%85%A5/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">SWPU2019 Web1 无列名注入</span>
+      <time style="float: right;">03-03</time>
+    </a>
+  
+    
+    <a href="/2022/03/03/GYCTF2020-Blacklist-%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5-handler/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">GYCTF2020 Blacklist 堆叠注入 handler</span>
+      <time style="float: right;">03-03</time>
+    </a>
+  
+    
+    <a href="/2022/03/03/GXYCTF2019-BabySQli/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">GXYCTF2019 BabySQli</span>
+      <time style="float: right;">03-03</time>
+    </a>
+  
+    
+    <a href="/2022/03/03/BJDCTF-2nd-%E7%AE%80%E5%8D%95%E6%B3%A8%E5%85%A5/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">BJDCTF 2nd 简单注入</span>
+      <time style="float: right;">03-03</time>
+    </a>
+  
     
     <a href="/2022/03/02/%E5%BC%BA%E7%BD%91%E6%9D%AF-2019-%E9%9A%8F%E4%BE%BF%E6%B3%A8-%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5/" class="list-group-item list-group-item-action">
       <span class="archive-post-title">强网杯 2019 随便注 堆叠注入</span>
@@ -300,6 +330,8 @@
 
 
 
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
 
 
 
@@ -323,6 +355,30 @@
 
 
 
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?17691437";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
 
 
 

