@@ -16,19 +16,46 @@
   <meta name="author" content="Doraemoo">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="归档">
-<meta property="og:url" content="https://doraemoo.github.io/archives/2022/03/page/4/index.html">
+    <meta name="description" content="Linux安装Qv2ray教程以kali为例 首先需要snap包管理软件 不会装的自行百度 执行以下命令下载Qv2ray snap install qv2ray 安装成功后 下载V2Ray Core 官方下载链接：https:&#x2F;&#x2F;github.com&#x2F;v2fly&#x2F;v2ray-core&#x2F;releases&#x2F;download&#x2F;v4.44.0&#x2F;v2ray-linux-64.zip wget https:&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux使用Qv2ray">
+<meta property="og:url" content="https://doraemoo.github.io/2022/03/05/Linux%E4%BD%BF%E7%94%A8Qv2ray/index.html">
 <meta property="og:site_name" content="Doraemoo">
+<meta property="og:description" content="Linux安装Qv2ray教程以kali为例 首先需要snap包管理软件 不会装的自行百度 执行以下命令下载Qv2ray snap install qv2ray 安装成功后 下载V2Ray Core 官方下载链接：https:&#x2F;&#x2F;github.com&#x2F;v2fly&#x2F;v2ray-core&#x2F;releases&#x2F;download&#x2F;v4.44.0&#x2F;v2ray-linux-64.zip wget https:&#x2F;">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/03/05/3RyQwaB9Dtm6Yn4.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/05/WDMcBRjpe7kXvdx.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/05/rAvgbWUs5XY3lMu.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/05/LZj3IYxPE4lCz1X.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/05/Nq3KjQYOvHIh9di.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/05/dVzJIC1AB7XqYmF.png">
+<meta property="article:published_time" content="2022-03-05T12:48:59.000Z">
+<meta property="article:modified_time" content="2022-03-05T12:51:19.233Z">
 <meta property="article:author" content="Doraemoo">
+<meta property="article:tag" content="其他">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2022/03/05/3RyQwaB9Dtm6Yn4.png">
   
   
-  <title>归档 - Doraemoo</title>
+  <title>Linux使用Qv2ray - Doraemoo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -55,7 +82,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -151,14 +178,56 @@
 </nav>
 
     <div class="banner" id="banner" parallax=true
-         style="background: url('https://w.wallhaven.cc/full/9m/wallhaven-9my5gk.jpg') no-repeat center center;
+         style="background: url('https://w.wallhaven.cc/full/wq/wallhaven-wqv5xx.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="归档">
+            <span class="h2" id="subtitle" title="Linux使用Qv2ray">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-03-05 20:48" pubdate>
+        2022年3月5日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      395 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      4 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
 
             
           </div>
@@ -171,100 +240,99 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 45 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2022</p>
-    
-    <a href="/2022/03/03/NCTF2019True-XML-cookbook/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">NCTF2019True XML cookbook</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-    
-    <a href="/2022/03/03/NCTF2019Fake-XML-cookbook/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">NCTF2019Fake XML cookbook</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-    
-    <a href="/2022/03/03/SQLI-Labs-Advanced-Injections/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">SQLI-Labs Advanced Injections</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-    
-    <a href="/2022/03/03/%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">二次注入</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-    
-    <a href="/2022/03/03/%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">宽字节注入</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-    
-    <a href="/2022/03/03/%E6%9E%81%E5%AE%A2%E5%A4%A7%E6%8C%91%E6%88%98-2019-FinalSQL/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">极客大挑战 2019 FinalSQL</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-    
-    <a href="/2022/03/03/%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E6%80%BB%E7%BB%93/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">报错注入总结</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-    
-    <a href="/2022/03/03/SWPU2019-Web1-%E6%97%A0%E5%88%97%E5%90%8D%E6%B3%A8%E5%85%A5/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">SWPU2019 Web1 无列名注入</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-    
-    <a href="/2022/03/03/GYCTF2020-Blacklist-%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5-handler/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">GYCTF2020 Blacklist 堆叠注入 handler</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-    
-    <a href="/2022/03/03/GXYCTF2019-BabySQli/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">GXYCTF2019 BabySQli</span>
-      <time style="float: right;">03-03</time>
-    </a>
-  
-</div>
 
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux使用Qv2ray</h1>
+            
+            <div class="markdown-body">
+              <h3 id="Linux安装Qv2ray教程"><a href="#Linux安装Qv2ray教程" class="headerlink" title="Linux安装Qv2ray教程"></a>Linux安装Qv2ray教程</h3><p>以kali为例 首先需要snap包管理软件 不会装的自行百度</p>
+<p>执行以下命令下载Qv2ray</p>
+<p><code>snap install qv2ray</code></p>
+<p>安装成功后 下载V2Ray Core</p>
+<p>官方下载链接：<a target="_blank" rel="noopener" href="https://github.com/v2fly/v2ray-core/releases/download/v4.44.0/v2ray-linux-64.zip">https://github.com/v2fly/v2ray-core/releases/download/v4.44.0/v2ray-linux-64.zip</a></p>
+<p><code>wget https://github.com/v2fly/v2ray-core/releases/download/v4.44.0/v2ray-linux-64.zip</code></p>
+<p>下载后解压缩</p>
+<p><code>unzip v2ray-linux-64.zip </code></p>
+<p>完成上述步骤后启动qv2ray</p>
+<p><img src="https://s2.loli.net/2022/03/05/3RyQwaB9Dtm6Yn4.png" srcset="/img/loading.gif" lazyload alt="image-20220305204200772"><img src="https://s2.loli.net/2022/03/05/WDMcBRjpe7kXvdx.png" srcset="/img/loading.gif" lazyload alt="image-20220305204225711"></p>
+<p>更改v2ray核心可执行文件为解压出来的v2ray文件</p>
+<p><img src="https://s2.loli.net/2022/03/05/rAvgbWUs5XY3lMu.png" srcset="/img/loading.gif" lazyload alt="image-20220305204342909"></p>
+<p>v2ray资源目录设置为v2ray的目录，设置完成后点击检查</p>
+<p><img src="https://s2.loli.net/2022/03/05/LZj3IYxPE4lCz1X.png" srcset="/img/loading.gif" lazyload alt="image-20220305204455101"></p>
+<p>出现如下信息就说明成功</p>
+<p><img src="https://s2.loli.net/2022/03/05/Nq3KjQYOvHIh9di.png" srcset="/img/loading.gif" lazyload alt="image-20220305204549912"></p>
+<p>设置分组信息及订阅地址 再更新订阅就可以使用了</p>
+<p><img src="https://s2.loli.net/2022/03/05/dVzJIC1AB7XqYmF.png" srcset="/img/loading.gif" lazyload alt="image-20220305204641540"></p>
 
-  <nav aria-label="navigation">
-    <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/archives/2022/03/page/3/#board"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/archives/2022/03/">1</a><a class="page-number" href="/archives/2022/03/page/2/#board">2</a><a class="page-number" href="/archives/2022/03/page/3/#board">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/2022/03/page/5/#board">5</a><a class="extend next" rel="next" href="/archives/2022/03/page/5/#board"><i class="iconfont icon-arrowright"></i></a>
-    </span>
-  </nav>
-
-
-
-
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E5%85%B6%E4%BB%96/">其他</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/03/OSCP%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E9%83%A8%E5%88%86/">
+                        <span class="hidden-mobile">OSCP学习笔记(部分)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -371,6 +439,19 @@
   
 
 
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
 
 
 
