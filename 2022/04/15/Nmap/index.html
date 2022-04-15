@@ -16,18 +16,24 @@
   <meta name="author" content="Doraemoo">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="about">
-<meta property="og:url" content="https://doraemoo.github.io/2022/03/05/about/index.html">
+    <meta name="description" content="NmapNmap常用参数 -sS                         TCP SYN扫描 -sU                         UDP扫描 -O                           检测目标操作系统类型 -sV                          检测目标上运行服务的版本 -v                            增加输">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nmap">
+<meta property="og:url" content="https://doraemoo.github.io/2022/04/15/Nmap/index.html">
 <meta property="og:site_name" content="Doraemoo">
+<meta property="og:description" content="NmapNmap常用参数 -sS                         TCP SYN扫描 -sU                         UDP扫描 -O                           检测目标操作系统类型 -sV                          检测目标上运行服务的版本 -v                            增加输">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-03-05T13:06:59.000Z">
-<meta property="article:modified_time" content="2022-03-05T13:06:59.900Z">
+<meta property="og:image" content="https://s2.loli.net/2022/04/15/23PVGsueQt15lTf.png">
+<meta property="og:image" content="https://s2.loli.net/2022/04/15/SrBDqi48uH7RLbQ.png">
+<meta property="article:published_time" content="2022-04-15T04:45:16.000Z">
+<meta property="article:modified_time" content="2022-04-15T04:47:16.571Z">
 <meta property="article:author" content="Doraemoo">
+<meta property="article:tag" content="Nmap">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2022/04/15/23PVGsueQt15lTf.png">
   
   
-  <title>about - Doraemoo</title>
+  <title>Nmap - Doraemoo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -173,7 +179,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="about">
+            <span class="h2" id="subtitle" title="Nmap">
               
             </span>
 
@@ -183,8 +189,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-03-05 21:06" pubdate>
-        2022年3月5日 晚上
+      <time datetime="2022-04-15 12:45" pubdate>
+        2022年4月15日 下午
       </time>
     </span>
   
@@ -194,7 +200,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      2.5k 字
     </span>
   
 
@@ -203,7 +209,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1 分钟
+      21 分钟
     </span>
   
 
@@ -240,15 +246,116 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">about</h1>
+            <h1 style="display: none">Nmap</h1>
             
             <div class="markdown-body">
-              
+              <h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><h3 id="Nmap常用参数"><a href="#Nmap常用参数" class="headerlink" title="Nmap常用参数"></a>Nmap常用参数</h3><blockquote>
+<p>-sS                         TCP SYN扫描</p>
+<p>-sU                         UDP扫描</p>
+<p>-O                           检测目标操作系统类型</p>
+<p>-sV                          检测目标上运行服务的版本</p>
+<p>-v                            增加输出信息的详细程度</p>
+<p>-vv                           增加输出详细程度为2</p>
+<p>-oA                          将nmap输出保存为三种主要格式</p>
+<p>-oN                          将nmap输出保存为正常格式</p>
+<p>-A                             全部扫描 激进模式</p>
+<p>-T&lt;1-5&gt;                   扫描速度 扫描速度越快会被发现的几率就会越高</p>
+<p>-p&lt;1-65535&gt;           扫描端口</p>
+<p>-p-                            扫描所有端口</p>
+<p>–script                     激活脚本</p>
+<p>–script&#x3D;vuln            激活vuln类别中的所有脚本</p>
+</blockquote>
+<h3 id="Nmap扫描类型概述"><a href="#Nmap扫描类型概述" class="headerlink" title="Nmap扫描类型概述"></a>Nmap扫描类型概述</h3><p>在使用nmap进行端口扫描时，有三种基本的扫描类型：</p>
+<ul>
+<li>TCP连接扫描（<code>-sT</code>）</li>
+<li>SYN半开扫描（<code>-sS</code>）</li>
+<li>UDP扫描（<code>-sU</code>）</li>
+</ul>
+<p>此外，还有三种不太常见的端口扫描类型（用于绕过防火墙）：</p>
+<ul>
+<li>TCP NULL扫描（<code>-sN</code>）</li>
+<li>TCP FIN扫描（<code>-sF</code>）</li>
+<li>TCP Xmas扫描（<code>-sX</code>）</li>
+</ul>
+<h4 id="TCP连接扫描原理"><a href="#TCP连接扫描原理" class="headerlink" title="TCP连接扫描原理"></a>TCP连接扫描原理</h4><p><strong>TCP扫描与目标执行完整的三次握手</strong></p>
+<p><img src="https://s2.loli.net/2022/04/15/23PVGsueQt15lTf.png" srcset="/img/loading.gif" lazyload alt="image-20220415121757125"></p>
+<blockquote>
+<p>如果Nmap发送一个带有SYN标志的TCP请求到关闭的端口，目标服务器将相应一个带有RST（重置）标志的TCP数据包，通过这个响应，Nmap可以确定端口已经关闭。</p>
+<p>如果请求被发送到一个开放的端口，目标将响应一个设置了 SYN&#x2F;ACK 标志的TCP数据包。Nmap 然后将此端口标记为打开</p>
+</blockquote>
+<p>许多防火墙被配置为简单地<code>丢弃</code>传入的数据包。Nmap 发送一个TCP SYN 请求，但什么也没有收到。这表明该端口受到防火墙的保护，因此该端口被视为<code>已过滤</code>。</p>
+<h4 id="SYN扫描原理"><a href="#SYN扫描原理" class="headerlink" title="SYN扫描原理"></a>SYN扫描原理</h4><p>SYN扫描有时被称为<code>半开</code>扫描或<code>隐形</code>扫描</p>
+<p>SYN 扫描在收到来自服务器的 SYN&#x2F;ACK 后发回一个 RST TCP 数据包</p>
+<p><img src="https://s2.loli.net/2022/04/15/SrBDqi48uH7RLbQ.png" srcset="/img/loading.gif" lazyload alt="image-20220415121730323"></p>
+<p><code>如果使用sudo运行Nmap，Nmap的默认扫描类型是SYN扫描，否则默认使用TCP连接扫描</code></p>
+<h4 id="UDP扫描原理"><a href="#UDP扫描原理" class="headerlink" title="UDP扫描原理"></a>UDP扫描原理</h4><blockquote>
+<p>当一个数据包被发送到一个<code>开放</code>的UDP端口时，应该没有响应。发生这种情况时，Nmap 将端口称为 is <code>open|filtered</code>。换句话说，它怀疑端口是开放的，但它可能被防火墙了。如果它得到一个UDP响应（这是非常不寻常的），那么该端口被标记为<em>open</em>。更常见的是没有响应，在这种情况下，请求会再次发送以进行双重检查。如果仍然没有响应，则将该端口标记为<code>open|filtered</code></p>
+<p>当一个数据包被发送到一个<code>关闭</code>的UDP端口时，目标应该用一个 <code>ICMP (ping)</code> 数据包来响应，其中包含一个端口不可达的消息。这清楚地标识了关闭的端口。</p>
+</blockquote>
+<p>通常UDP扫描非常慢 启用<code>--top-ports &lt;number&gt;</code>可以获得可接受的扫描时间</p>
+<h4 id="ICMP网络扫描"><a href="#ICMP网络扫描" class="headerlink" title="ICMP网络扫描"></a>ICMP网络扫描</h4><h5 id="Ping扫描"><a href="#Ping扫描" class="headerlink" title="Ping扫描"></a>Ping扫描</h5><blockquote>
+<p>Nmap 向指定网络的每个可能的 IP 地址发送一个 ICMP 数据包。当它收到响应时，它会将响应的 IP 地址标记为活动的。</p>
+</blockquote>
+<p>执行ping扫描 将<code>-sn</code>和IP范围结合使用，ip范围用字符<code>-</code>或者CIDR表示法指定。例如</p>
+<p><code>nmap -sn 192.168.0.1-254</code></p>
+<p><code>nmap -sn 192.168.0.0/24</code></p>
+<h3 id="NSE脚本"><a href="#NSE脚本" class="headerlink" title="NSE脚本"></a>NSE脚本</h3><p>使用Lua语言编写</p>
+<p>脚本类别</p>
+<ul>
+<li><p><code>safe</code>:- 不会影响目标</p>
+</li>
+<li><p><code>intrusive</code>:- 不安全：可能影响目标</p>
+</li>
+<li><p><code>vuln</code>:- 扫描漏洞</p>
+</li>
+<li><p><code>exploit</code>:- 尝试利用漏洞</p>
+</li>
+<li><p><code>auth</code>:- 尝试绕过正在运行的服务的身份验证（例如匿名登录FTP服务器）</p>
+</li>
+<li><p><code>brute</code>:- 尝试暴力破解运行服务的凭据</p>
+</li>
+<li><p><code>discovery</code>:- 尝试查询正在运行的服务以获取有关网络的更多信息（例如查询 SNMP 服务器）。</p>
+<p>可以在<a target="_blank" rel="noopener" href="https://nmap.org/book/nse-usage.html">此处</a>找到更详尽的列表。</p>
+</li>
+</ul>
+<p>如果运行该命令<code>--script=safe</code>，则将针对目标运行任何适用的安全脚本</p>
+<p>要运行特定脚本，我们将使用<code>--script=&lt;script-name&gt;</code>，例如<code>--script=http-fileupload-exploiter</code>。</p>
+<p>多个脚本可以以这种方式同时运行，方法是用逗号分隔它们。例如：<code>--script=smb-enum-users,smb-enum-shares</code>。</p>
+<p>某些脚本需要参数，可以通过<code>--script-args</code>给出</p>
+<p>例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">nmap -p 80 --script http-put --script-args http-put.url=&#x27;/dav/shell.php&#x27;,http-put.file=&#x27;./shell.php&#x27;<br></code></pre></td></tr></table></figure>
+
+<p>Nmap 脚本带有内置的帮助菜单，可以使用<code>nmap --script-help &lt;script-name&gt;</code></p>
+<h4 id="搜索脚本"><a href="#搜索脚本" class="headerlink" title="搜索脚本"></a>搜索脚本</h4><p>Nmap 将其脚本存储在Linux上的<code>/usr/share/nmap/scripts</code></p>
+<p><code>/usr/share/nmap/scripts/script.db</code>这实际上并不是一个数据库，而是一个包含每个可用脚本的文件名和类别的格式化文本文件。</p>
+<p>可以通过<em>grep</em>来查找脚本</p>
+<p><code>grep &quot;ftp&quot; /usr/share/nmap/scripts/script.db</code></p>
+<p>ls命令查找脚本</p>
+<p><code>ls -l /usr/share/nmap/scripts/*ftp*</code></p>
+<p>相同的技术也可用于搜索脚本类别</p>
+<p><code>grep &quot;safe&quot; /usr/share/nmap/scripts/script.db</code></p>
+<h3 id="绕过防火墙"><a href="#绕过防火墙" class="headerlink" title="绕过防火墙"></a>绕过防火墙</h3><p>典型 Windows 主机将使用其默认防火墙阻止所有 ICMP 数据包</p>
+<p>Nmap 为此提供了一个选项：<code>-Pn</code>它告诉 Nmap 在扫描主机之前不要打扰它。这意味着 Nmap 将始终将目标主机视为活动的，有效地绕过 ICMP 块。</p>
+<p>以下参数对绕过防火墙很有用：</p>
+<ul>
+<li><code>-f</code>:- 用于对数据包进行分段（即，将它们拆分成更小的部分），从而降低防火墙或IDS检测到数据包的可能性。</li>
+<li>提供对数据包大小的更多控制：<code>--mtu &lt;number&gt;</code>，接受用于发送的数据包的最大传输单元大小。这<em>必须</em>是 8 的倍数。</li>
+<li><code>--scan-delay &lt;time&gt;ms</code>:- 用于在发送的数据包之间添加延迟。如果网络不稳定，这非常有用，但也可以用于规避任何可能存在的基于时间的防火墙&#x2F;IDS 触发器。</li>
+<li><code>--badsum</code>:- 这用于为数据包生成无效校验和。任何真正的 TCP&#x2F;IP 堆栈都会丢弃此数据包，但是，防火墙可能会自动响应，而无需检查数据包的校验和。因此，此参数可用于确定防火墙&#x2F;IDS 的存在。</li>
+</ul>
+
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Nmap/">Nmap</a>
+                    
+                  </div>
                 
               </div>
               
@@ -263,18 +370,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/15/Nmap/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Nmap</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/05/Linux%E4%BD%BF%E7%94%A8Qv2ray/">
-                        <span class="hidden-mobile">Linux使用Qv2ray</span>
+                      <a href="/2022/03/05/about/">
+                        <span class="hidden-mobile">about</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
