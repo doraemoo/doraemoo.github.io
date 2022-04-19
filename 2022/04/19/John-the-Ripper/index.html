@@ -24,7 +24,7 @@
 <meta property="og:description" content="John the Ripper使用记录John the Ripper 的基本语法john [options] [path to file] 自动破解John具有内置功能检测哈希类型。 john --wordlist&#x3D;[path to wordlist] [path to file] --wordlist&#x3D;指定使用字典模式 示例用法： john --wordlist&#x3D;&#x2F;usr&#x2F;share&#x2F;wordl">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-19T03:42:17.000Z">
-<meta property="article:modified_time" content="2022-04-19T03:43:02.509Z">
+<meta property="article:modified_time" content="2022-04-19T03:44:59.418Z">
 <meta property="article:author" content="Doraemoo">
 <meta property="article:tag" content="Pentest">
 <meta name="twitter:card" content="summary_large_image">
@@ -329,7 +329,7 @@
 <p>示例：<code>zip2jhon zipfile.zip &gt; zip_hash.txt</code></p>
 <h5 id="破解-1"><a href="#破解-1" class="headerlink" title="破解"></a>破解</h5><p>名为“zip_hash.txt”的示例用例中获取我们从 zip2john 输出的文件，并且就像我们对 unshadow 所做的那样，将其直接输入到 John 中，因为我们专门为它进行了输入。</p>
 <p><code>john --wordlist=/usr/share/wordlist/rockyou.txt zip_hash.txt</code></p>
-<h5 id="破解受密码保护的rar文件"><a href="#破解受密码保护的rar文件" class="headerlink" title="破解受密码保护的rar文件"></a>破解受密码保护的rar文件</h5><p>与我们刚刚使用的 zip2john 工具几乎相同，我们将使用 rar2john 工具将 rar 文件转换为 John 能够理解的哈希格式。基本语法如下：</p>
+<h4 id="破解受密码保护的rar文件"><a href="#破解受密码保护的rar文件" class="headerlink" title="破解受密码保护的rar文件"></a>破解受密码保护的rar文件</h4><p>与我们刚刚使用的 zip2john 工具几乎相同，我们将使用 rar2john 工具将 rar 文件转换为 John 能够理解的哈希格式。基本语法如下：</p>
 <p><code>rar2john [rar file] &gt; [output file]</code></p>
 <p><code>rar2john</code>- 调用 rar2john 工具</p>
 <p><code>[rar file]</code>- 您希望获得哈希的 rar 文件的路径</p>
