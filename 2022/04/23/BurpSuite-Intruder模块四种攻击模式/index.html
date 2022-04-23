@@ -16,24 +16,21 @@
   <meta name="author" content="Doraemoo">
   <meta name="keywords" content="">
   
-    <meta name="description" content="NmapNmap常用参数 -sS                         TCP SYN扫描 -sU                         UDP扫描 -O                           检测目标操作系统类型 -sV                          检测目标上运行服务的版本 -v                            增加输">
+    <meta name="description" content="ffuf使用记录基本使用ffuf至少提供两个选项： ​    -u指定URL ​    -w指定单词表 关键字FUZZ用于告诉ffuf单词列表将被注入到哪里可以附加到URL末尾如下： ffuf -u http:&#x2F;&#x2F;127.0.0.1&#x2F;FUZZ -w &#x2F;usr&#x2F;share&#x2F;seclists&#x2F;Discovery&#x2F;Web-Content&#x2F;big.txt 也可以使用自定义关键字代替FUZZ，只需要这样定义">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nmap">
-<meta property="og:url" content="https://doraemoo.github.io/2022/04/15/Nmap/index.html">
+<meta property="og:title" content="BurpSuite Intruder模块四种攻击模式">
+<meta property="og:url" content="https://doraemoo.github.io/2022/04/23/BurpSuite-Intruder%E6%A8%A1%E5%9D%97%E5%9B%9B%E7%A7%8D%E6%94%BB%E5%87%BB%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Doraemoo">
-<meta property="og:description" content="NmapNmap常用参数 -sS                         TCP SYN扫描 -sU                         UDP扫描 -O                           检测目标操作系统类型 -sV                          检测目标上运行服务的版本 -v                            增加输">
+<meta property="og:description" content="ffuf使用记录基本使用ffuf至少提供两个选项： ​    -u指定URL ​    -w指定单词表 关键字FUZZ用于告诉ffuf单词列表将被注入到哪里可以附加到URL末尾如下： ffuf -u http:&#x2F;&#x2F;127.0.0.1&#x2F;FUZZ -w &#x2F;usr&#x2F;share&#x2F;seclists&#x2F;Discovery&#x2F;Web-Content&#x2F;big.txt 也可以使用自定义关键字代替FUZZ，只需要这样定义">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s2.loli.net/2022/04/15/23PVGsueQt15lTf.png">
-<meta property="og:image" content="https://s2.loli.net/2022/04/15/SrBDqi48uH7RLbQ.png">
-<meta property="article:published_time" content="2022-04-15T04:45:16.000Z">
-<meta property="article:modified_time" content="2022-04-23T12:55:20.778Z">
+<meta property="article:published_time" content="2022-04-23T12:53:19.000Z">
+<meta property="article:modified_time" content="2022-04-23T12:54:39.797Z">
 <meta property="article:author" content="Doraemoo">
-<meta property="article:tag" content="tools">
+<meta property="article:tag" content="BurpSuite">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://s2.loli.net/2022/04/15/23PVGsueQt15lTf.png">
   
   
-  <title>Nmap - Doraemoo</title>
+  <title>BurpSuite Intruder模块四种攻击模式 - Doraemoo</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -179,7 +176,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Nmap">
+            <span class="h2" id="subtitle" title="BurpSuite Intruder模块四种攻击模式">
               
             </span>
 
@@ -189,8 +186,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-15 12:45" pubdate>
-        2022年4月15日 下午
+      <time datetime="2022-04-23 20:53" pubdate>
+        2022年4月23日 晚上
       </time>
     </span>
   
@@ -200,7 +197,7 @@
   
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.5k 字
+      2.7k 字
     </span>
   
 
@@ -209,7 +206,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      21 分钟
+      23 分钟
     </span>
   
 
@@ -246,103 +243,48 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Nmap</h1>
+            <h1 style="display: none">BurpSuite Intruder模块四种攻击模式</h1>
             
             <div class="markdown-body">
-              <h1 id="Nmap"><a href="#Nmap" class="headerlink" title="Nmap"></a>Nmap</h1><h3 id="Nmap常用参数"><a href="#Nmap常用参数" class="headerlink" title="Nmap常用参数"></a>Nmap常用参数</h3><blockquote>
-<p>-sS                         TCP SYN扫描</p>
-<p>-sU                         UDP扫描</p>
-<p>-O                           检测目标操作系统类型</p>
-<p>-sV                          检测目标上运行服务的版本</p>
-<p>-v                            增加输出信息的详细程度</p>
-<p>-vv                           增加输出详细程度为2</p>
-<p>-oA                          将nmap输出保存为三种主要格式</p>
-<p>-oN                          将nmap输出保存为正常格式</p>
-<p>-A                             全部扫描 激进模式</p>
-<p>-T&lt;1-5&gt;                   扫描速度 扫描速度越快会被发现的几率就会越高</p>
-<p>-p&lt;1-65535&gt;           扫描端口</p>
-<p>-p-                            扫描所有端口</p>
-<p>–script                     激活脚本</p>
-<p>–script&#x3D;vuln            激活vuln类别中的所有脚本</p>
-</blockquote>
-<h3 id="Nmap扫描类型概述"><a href="#Nmap扫描类型概述" class="headerlink" title="Nmap扫描类型概述"></a>Nmap扫描类型概述</h3><p>在使用nmap进行端口扫描时，有三种基本的扫描类型：</p>
-<ul>
-<li>TCP连接扫描（<code>-sT</code>）</li>
-<li>SYN半开扫描（<code>-sS</code>）</li>
-<li>UDP扫描（<code>-sU</code>）</li>
-</ul>
-<p>此外，还有三种不太常见的端口扫描类型（用于绕过防火墙）：</p>
-<ul>
-<li>TCP NULL扫描（<code>-sN</code>）</li>
-<li>TCP FIN扫描（<code>-sF</code>）</li>
-<li>TCP Xmas扫描（<code>-sX</code>）</li>
-</ul>
-<h4 id="TCP连接扫描原理"><a href="#TCP连接扫描原理" class="headerlink" title="TCP连接扫描原理"></a>TCP连接扫描原理</h4><p><strong>TCP扫描与目标执行完整的三次握手</strong></p>
-<p><img src="https://s2.loli.net/2022/04/15/23PVGsueQt15lTf.png" srcset="/img/loading.gif" lazyload alt="image-20220415121757125"></p>
-<blockquote>
-<p>如果Nmap发送一个带有SYN标志的TCP请求到关闭的端口，目标服务器将相应一个带有RST（重置）标志的TCP数据包，通过这个响应，Nmap可以确定端口已经关闭。</p>
-<p>如果请求被发送到一个开放的端口，目标将响应一个设置了 SYN&#x2F;ACK 标志的TCP数据包。Nmap 然后将此端口标记为打开</p>
-</blockquote>
-<p>许多防火墙被配置为简单地<code>丢弃</code>传入的数据包。Nmap 发送一个TCP SYN 请求，但什么也没有收到。这表明该端口受到防火墙的保护，因此该端口被视为<code>已过滤</code>。</p>
-<h4 id="SYN扫描原理"><a href="#SYN扫描原理" class="headerlink" title="SYN扫描原理"></a>SYN扫描原理</h4><p>SYN扫描有时被称为<code>半开</code>扫描或<code>隐形</code>扫描</p>
-<p>SYN 扫描在收到来自服务器的 SYN&#x2F;ACK 后发回一个 RST TCP 数据包</p>
-<p><img src="https://s2.loli.net/2022/04/15/SrBDqi48uH7RLbQ.png" srcset="/img/loading.gif" lazyload alt="image-20220415121730323"></p>
-<p><code>如果使用sudo运行Nmap，Nmap的默认扫描类型是SYN扫描，否则默认使用TCP连接扫描</code></p>
-<h4 id="UDP扫描原理"><a href="#UDP扫描原理" class="headerlink" title="UDP扫描原理"></a>UDP扫描原理</h4><blockquote>
-<p>当一个数据包被发送到一个<code>开放</code>的UDP端口时，应该没有响应。发生这种情况时，Nmap 将端口称为 is <code>open|filtered</code>。换句话说，它怀疑端口是开放的，但它可能被防火墙了。如果它得到一个UDP响应（这是非常不寻常的），那么该端口被标记为<em>open</em>。更常见的是没有响应，在这种情况下，请求会再次发送以进行双重检查。如果仍然没有响应，则将该端口标记为<code>open|filtered</code></p>
-<p>当一个数据包被发送到一个<code>关闭</code>的UDP端口时，目标应该用一个 <code>ICMP (ping)</code> 数据包来响应，其中包含一个端口不可达的消息。这清楚地标识了关闭的端口。</p>
-</blockquote>
-<p>通常UDP扫描非常慢 启用<code>--top-ports &lt;number&gt;</code>可以获得可接受的扫描时间</p>
-<h4 id="ICMP网络扫描"><a href="#ICMP网络扫描" class="headerlink" title="ICMP网络扫描"></a>ICMP网络扫描</h4><h5 id="Ping扫描"><a href="#Ping扫描" class="headerlink" title="Ping扫描"></a>Ping扫描</h5><blockquote>
-<p>Nmap 向指定网络的每个可能的 IP 地址发送一个 ICMP 数据包。当它收到响应时，它会将响应的 IP 地址标记为活动的。</p>
-</blockquote>
-<p>执行ping扫描 将<code>-sn</code>和IP范围结合使用，ip范围用字符<code>-</code>或者CIDR表示法指定。例如</p>
-<p><code>nmap -sn 192.168.0.1-254</code></p>
-<p><code>nmap -sn 192.168.0.0/24</code></p>
-<h3 id="NSE脚本"><a href="#NSE脚本" class="headerlink" title="NSE脚本"></a>NSE脚本</h3><p>使用Lua语言编写</p>
-<p>脚本类别</p>
-<ul>
-<li><p><code>safe</code>:- 不会影响目标</p>
-</li>
-<li><p><code>intrusive</code>:- 不安全：可能影响目标</p>
-</li>
-<li><p><code>vuln</code>:- 扫描漏洞</p>
-</li>
-<li><p><code>exploit</code>:- 尝试利用漏洞</p>
-</li>
-<li><p><code>auth</code>:- 尝试绕过正在运行的服务的身份验证（例如匿名登录FTP服务器）</p>
-</li>
-<li><p><code>brute</code>:- 尝试暴力破解运行服务的凭据</p>
-</li>
-<li><p><code>discovery</code>:- 尝试查询正在运行的服务以获取有关网络的更多信息（例如查询 SNMP 服务器）。</p>
-<p>可以在<a target="_blank" rel="noopener" href="https://nmap.org/book/nse-usage.html">此处</a>找到更详尽的列表。</p>
-</li>
-</ul>
-<p>如果运行该命令<code>--script=safe</code>，则将针对目标运行任何适用的安全脚本</p>
-<p>要运行特定脚本，我们将使用<code>--script=&lt;script-name&gt;</code>，例如<code>--script=http-fileupload-exploiter</code>。</p>
-<p>多个脚本可以以这种方式同时运行，方法是用逗号分隔它们。例如：<code>--script=smb-enum-users,smb-enum-shares</code>。</p>
-<p>某些脚本需要参数，可以通过<code>--script-args</code>给出</p>
-<p>例如：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><pre><code class="hljs shell">nmap -p 80 --script http-put --script-args http-put.url=&#x27;/dav/shell.php&#x27;,http-put.file=&#x27;./shell.php&#x27;<br></code></pre></td></tr></table></figure>
-
-<p>Nmap 脚本带有内置的帮助菜单，可以使用<code>nmap --script-help &lt;script-name&gt;</code></p>
-<h4 id="搜索脚本"><a href="#搜索脚本" class="headerlink" title="搜索脚本"></a>搜索脚本</h4><p>Nmap 将其脚本存储在Linux上的<code>/usr/share/nmap/scripts</code></p>
-<p><code>/usr/share/nmap/scripts/script.db</code>这实际上并不是一个数据库，而是一个包含每个可用脚本的文件名和类别的格式化文本文件。</p>
-<p>可以通过<em>grep</em>来查找脚本</p>
-<p><code>grep &quot;ftp&quot; /usr/share/nmap/scripts/script.db</code></p>
-<p>ls命令查找脚本</p>
-<p><code>ls -l /usr/share/nmap/scripts/*ftp*</code></p>
-<p>相同的技术也可用于搜索脚本类别</p>
-<p><code>grep &quot;safe&quot; /usr/share/nmap/scripts/script.db</code></p>
-<h3 id="绕过防火墙"><a href="#绕过防火墙" class="headerlink" title="绕过防火墙"></a>绕过防火墙</h3><p>典型 Windows 主机将使用其默认防火墙阻止所有 ICMP 数据包</p>
-<p>Nmap 为此提供了一个选项：<code>-Pn</code>它告诉 Nmap 在扫描主机之前不要打扰它。这意味着 Nmap 将始终将目标主机视为活动的，有效地绕过 ICMP 块。</p>
-<p>以下参数对绕过防火墙很有用：</p>
-<ul>
-<li><code>-f</code>:- 用于对数据包进行分段（即，将它们拆分成更小的部分），从而降低防火墙或IDS检测到数据包的可能性。</li>
-<li>提供对数据包大小的更多控制：<code>--mtu &lt;number&gt;</code>，接受用于发送的数据包的最大传输单元大小。这<em>必须</em>是 8 的倍数。</li>
-<li><code>--scan-delay &lt;time&gt;ms</code>:- 用于在发送的数据包之间添加延迟。如果网络不稳定，这非常有用，但也可以用于规避任何可能存在的基于时间的防火墙&#x2F;IDS 触发器。</li>
-<li><code>--badsum</code>:- 这用于为数据包生成无效校验和。任何真正的 TCP&#x2F;IP 堆栈都会丢弃此数据包，但是，防火墙可能会自动响应，而无需检查数据包的校验和。因此，此参数可用于确定防火墙&#x2F;IDS 的存在。</li>
-</ul>
+              <h2 id="ffuf使用记录"><a href="#ffuf使用记录" class="headerlink" title="ffuf使用记录"></a>ffuf使用记录</h2><h4 id="基本"><a href="#基本" class="headerlink" title="基本"></a>基本</h4><p>使用ffuf至少提供两个选项：</p>
+<p>​    <code>-u</code>指定URL</p>
+<p>​    <code>-w</code>指定单词表</p>
+<p>关键字FUZZ用于告诉ffuf单词列表将被注入到哪里可以附加到URL末尾如下：</p>
+<p><code>ffuf -u http://127.0.0.1/FUZZ -w /usr/share/seclists/Discovery/Web-Content/big.txt</code></p>
+<p>也可以使用自定义关键字代替FUZZ，只需要这样定义它<code>wordlist.txt:KEYWORD</code></p>
+<p><code>ffuf -u http://127.0.0.1/DORA -w /usr/share/seclists/Discovery/Web-Content/big.txt:DORA</code></p>
+<p><code>-X</code> 指定方法</p>
+<p><code>-d</code>提供POST数据</p>
+<p><code>-H</code>设置Header头</p>
+<h4 id="查找页面和目录"><a href="#查找页面和目录" class="headerlink" title="查找页面和目录"></a>查找页面和目录</h4><h5 id="从通用文件列表开始枚举"><a href="#从通用文件列表开始枚举" class="headerlink" title="从通用文件列表开始枚举"></a>从通用文件列表开始枚举</h5><p><code>ffuf -u http://10.10.157.174/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files-lowercase.txt</code></p>
+<p>通常可以假设<code>index.&lt;extension&gt;</code>它是大多数网站的默认页面，因此我们可以尝试仅对索引页面进行常见扩展。使用这种方法，我们通常可以确定站点使用的编程语言。</p>
+<p><code>ffuf -u http://10.10.157.174/indexFUZZ -w /usr/share/seclists/Discovery/Web-Content/web-extensions.txt</code></p>
+<p>知道了支持的扩展，可以尝试一个通用词列表（没有扩展）并应用我们知道有效的扩展+一些常见的，比如<code>.txt</code></p>
+<p><code>ffuf -u http://10.10.157.174/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words-lowercase.txt -e .php,.txt</code></p>
+<p>模糊<code>目录</code>，只需要提供一个单词表</p>
+<p><code>ffuf -u http://10.10.157.174/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-directories-lowercase.txt</code></p>
+<h4 id="使用过滤器"><a href="#使用过滤器" class="headerlink" title="使用过滤器"></a>使用过滤器</h4><p><code>ffuf -u http://10.10.157.174/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files-lowercase.txt</code></p>
+<p>运行后有很多输出，但没有多少有用</p>
+<p>通过添加<code>-fc 403</code>（过滤代码），我们将从输出中隐藏所有 403 状态码</p>
+<p><code>ffuf -u http://10.10.157.174/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files-lowercase.txt -fc 403</code></p>
+<p>想要过滤掉多个状态代码，例如 500、302、301、401 等。例如，如果知道要查看 200 状态代码响应，则可以使用<code>-mc 200</code>(match code) 而不是一长串的过滤代码。</p>
+<p><code>ffuf -u http://10.10.157.174/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files-lowercase.txt -mc 200</code></p>
+<p>可能会遇到状态代码为 200 且响应大小为零的条目。例如。<code>functions.php</code>或<code>inc/myfile.php</code></p>
+<p>除非我们有 LFI（本地文件包含），否则这种文件并不有趣，所以我们可以使用<code>-fs 0</code></p>
+<p>使用正则表达式来匹配所有以点开头的文件</p>
+<p><code>ffuf -u http://10.10.157.174/FUZZ -w /usr/share/seclists/Discovery/Web-Content/raft-medium-files-lowercase.txt -fr &#39;/\..*&#39;</code></p>
+<h4 id="对参数进行fuzz"><a href="#对参数进行fuzz" class="headerlink" title="对参数进行fuzz"></a>对参数进行fuzz</h4><p>找到页面或 API 端点但不知道接受哪些参数时，可以使用ffuf来进行模糊测试</p>
+<p><code>ffuf -u &#39;http://10.10.239.142/sqli-labs/Less-1/?FUZZ=1&#39; -c -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt -fw 39</code></p>
+<p>对值进行模糊测试</p>
+<p><code>for i in &#123;0..255&#125;; do echo $i; done | ffuf -u &#39;http://10.10.239.142/sqli-labs/Less-1/?id=FUZZ&#39; -c -w - -fw 33</code></p>
+<p>将 ffuf 用于基于 wordlist 的暴力攻击，例如，在身份验证页面上尝试密码</p>
+<p><code> ffuf -u http://10.10.239.142/sqli-labs/Less-11/ -c -w /usr/share/seclists/Passwords/Leaked-Databases/hak5.txt -X POST -d &#39;uname=Dummy&amp;passwd=FUZZ&amp;submit=Submit&#39; -fs 1435 -H &#39;Content-Type: application/x-www-form-urlencoded&#39;</code></p>
+<h4 id="查找虚拟主机和子域"><a href="#查找虚拟主机和子域" class="headerlink" title="查找虚拟主机和子域"></a>查找虚拟主机和子域</h4><h5 id="子域名枚举"><a href="#子域名枚举" class="headerlink" title="子域名枚举"></a>子域名枚举</h5><p><code>ffuf -u http://FUZZ.mydomain.com -c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -fs 0</code></p>
+<h5 id="虚拟主机枚举"><a href="#虚拟主机枚举" class="headerlink" title="虚拟主机枚举"></a>虚拟主机枚举</h5><p><code>ffuf -u http://mydomain.com -c -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -H &#39;Host: FUZZ.mydomain.com&#39; -fs 0</code></p>
+<h4 id="代理-ffuf-流量"><a href="#代理-ffuf-流量" class="headerlink" title="代理 ffuf 流量"></a>代理 ffuf 流量</h4><p><code>ffuf -u http://10.10.239.142/ -c -w /usr/share/seclists/Discovery/Web-Content/common.txt -x http://127.0.0.1:8080</code></p>
+<p>仅将匹配项发送到您的代理进行重播</p>
+<p><code>ffuf -u http://10.10.239.142/ -c -w /usr/share/seclists/Discovery/Web-Content/common.txt -replay-proxy http://127.0.0.1:8080</code></p>
+<h4 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h4><p><code>-ic</code>允许您忽略单词列表中的注释，例如标题、版权说明、注释等</p>
 
             </div>
             <hr>
@@ -353,7 +295,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/tools/">tools</a>
+                      <a class="hover-with-bg" href="/tags/BurpSuite/">BurpSuite</a>
                     
                   </div>
                 
@@ -370,18 +312,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/19/John-the-Ripper/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">John the Ripper</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/03/05/Linux%E4%BD%BF%E7%94%A8Qv2ray/">
-                        <span class="hidden-mobile">Linux使用Qv2ray</span>
+                      <a href="/2022/04/23/ffuf%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">
+                        <span class="hidden-mobile">ffuf使用记录</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
